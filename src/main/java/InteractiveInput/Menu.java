@@ -1,10 +1,10 @@
 package InteractiveInput;
 
+import DomainModels.Player;
 import DomainModels.PlayerRequest;
 import Enums.Gender;
 import Enums.Option;
 import Service.MenuService;
-
 import java.util.Scanner;
 
 public class Menu {
@@ -16,21 +16,29 @@ public class Menu {
         System.out.println("0. Paraseste aplicatia");
         System.out.println("1. Adauga jucator");
         System.out.println("2. Afiseaza toti jucatorii");
+        System.out.println("3. Sterge un jucator");
+        System.out.println("4. Editeaza datele unui jucator");
     }
     public  void chooseOption(Option option){
         switch (option){
             case NewPlayer:
                 System.out.println(menuService.createPlayer(getPlayerDetails()));
-
                 break;
             case ShowPlayers:
                 menuService.showPlayers();
                 break;
-
-
-
+            case DeletePlayer:
+                if (menuService.deletePlayer(idToDelete()) == 0)
+                    System.out.println("Id-ul introdus nu corespunde cu cele din baza de date.");
+                else
+                    System.out.println("Jucatorul a fost sters cu succes");
+                break;
+            case EditPlayer:
+                int id = idToEdit();
+                System.out.println(menuService.getPlayer(id));
+                System.out.println(menuService.editPlayer(getPlayerDetails(), id));
+                break;
         }
-
     }
     private PlayerRequest getPlayerDetails() {
         Scanner scanner = new Scanner(System.in);
@@ -44,7 +52,6 @@ public class Menu {
         System.out.println("Current rating = ");
         playerRequest.setCurrentRating(scanner.nextInt());
         System.out.println("Gender M/F  ");
-
 
         do {
             char gender = scanner.next().charAt(0);
@@ -63,7 +70,17 @@ public class Menu {
         return playerRequest;
 
     }
+    private int idToDelete (){
+        System.out.println("Introdu id-ul jucatorului pe care vrei sa il stergi:");
+        Scanner obj = new Scanner(System.in);
+        return  obj.nextInt();
+    }
 
+    private int idToEdit(){
+        System.out.println("Introdu id-ul jucatorului pe care vrei sa il editezi:");
+        Scanner obj = new Scanner(System.in);
+        return obj.nextInt();
+    }
 
 
 }
