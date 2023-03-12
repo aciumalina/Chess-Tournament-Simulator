@@ -5,6 +5,7 @@ import Enums.Gender;
 import Enums.Option;
 import Service.MenuService;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -32,7 +33,7 @@ public class Menu {
         }
 
     }
-    private PlayerRequest getPlayerDetails() {
+    private PlayerRequest getPlayerDetails() throws InputMismatchException {
         Scanner scanner = new Scanner(System.in);
         PlayerRequest playerRequest = new PlayerRequest();
         System.out.println("First Name = ");
