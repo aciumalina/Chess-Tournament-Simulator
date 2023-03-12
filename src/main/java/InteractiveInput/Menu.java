@@ -5,6 +5,8 @@ import DomainModels.PlayerRequest;
 import Enums.Gender;
 import Enums.Option;
 import Service.MenuService;
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -23,24 +25,18 @@ public class Menu {
         switch (option){
             case NewPlayer:
                 System.out.println(menuService.createPlayer(getPlayerDetails()));
+
                 break;
             case ShowPlayers:
                 menuService.showPlayers();
                 break;
-            case DeletePlayer:
-                if (menuService.deletePlayer(idToDelete()) == 0)
-                    System.out.println("Id-ul introdus nu corespunde cu cele din baza de date.");
-                else
-                    System.out.println("Jucatorul a fost sters cu succes");
-                break;
-            case EditPlayer:
-                int id = idToEdit();
-                System.out.println(menuService.getPlayer(id));
-                System.out.println(menuService.editPlayer(getPlayerDetails(), id));
-                break;
+
+
+
         }
+
     }
-    private PlayerRequest getPlayerDetails() {
+    private PlayerRequest getPlayerDetails() throws InputMismatchException {
         Scanner scanner = new Scanner(System.in);
         PlayerRequest playerRequest = new PlayerRequest();
         System.out.println("First Name = ");
@@ -52,6 +48,7 @@ public class Menu {
         System.out.println("Current rating = ");
         playerRequest.setCurrentRating(scanner.nextInt());
         System.out.println("Gender M/F  ");
+
 
         do {
             char gender = scanner.next().charAt(0);
