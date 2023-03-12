@@ -1,12 +1,14 @@
 package DomainModels;
 
 import Enums.Gender;
+import OutputDesign.StickmanBoyAndGirl;
 
-public class Player {
+public class Player implements StickmanBoyAndGirl {
     int id;
     int age;
     String firstName;
     String lastName;
+
     int currentRating;
     Gender gender;
 
@@ -30,7 +32,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
+        if (gender == Gender.Male){ return "\n" + STICKMAN_BOY + "\n" + "Player{" +
                 "id=" + id +
                 ", age=" + age +
                 ", firstName='" + firstName + '\'' +
@@ -38,6 +40,19 @@ public class Player {
                 ", currentRating=" + currentRating +
                 ", gender=" + gender +
                 ", numberOfPoints=" + numberOfPoints +
-                '}';
+                '}';}
+
+
+
+    else{
+        return STICKMAN_GIRL + "\n" + "Player{" +
+                "id=" + id +
+                ", age=" + age +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", currentRating=" + currentRating +
+                ", gender=" + gender +
+                ", numberOfPoints=" + numberOfPoints +
+                '}'+ "\n";}
     }
 }
