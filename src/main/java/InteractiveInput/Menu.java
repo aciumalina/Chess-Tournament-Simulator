@@ -1,5 +1,6 @@
 package InteractiveInput;
 
+import DomainModels.Player;
 import DomainModels.PlayerRequest;
 import Enums.Gender;
 import Enums.Option;
@@ -17,6 +18,8 @@ public class Menu {
         System.out.println("0. Paraseste aplicatia");
         System.out.println("1. Adauga jucator");
         System.out.println("2. Afiseaza toti jucatorii");
+        System.out.println("3. Sterge un jucator");
+        System.out.println("4. Editeaza datele unui jucator");
     }
     public  void chooseOption(Option option){
         switch (option){
@@ -64,7 +67,17 @@ public class Menu {
         return playerRequest;
 
     }
+    private int idToDelete (){
+        System.out.println("Introdu id-ul jucatorului pe care vrei sa il stergi:");
+        Scanner obj = new Scanner(System.in);
+        return  obj.nextInt();
+    }
 
+    private int idToEdit(){
+        System.out.println("Introdu id-ul jucatorului pe care vrei sa il editezi:");
+        Scanner obj = new Scanner(System.in);
+        return obj.nextInt();
+    }
 
 
 }

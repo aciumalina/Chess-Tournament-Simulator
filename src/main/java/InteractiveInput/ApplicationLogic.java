@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class ApplicationLogic {
     public static void runApp(){
         Scanner scanner = new Scanner(System.in);
-        Menu menu = new Menu();
+        Menu menu = new Menu();;
 
         int option = 11;
         do {
@@ -35,12 +35,17 @@ public class ApplicationLogic {
                 case 2:
                     menu.chooseOption(Option.ShowPlayers);
                     break;
+                case 3:
+                    menu.chooseOption(Option.DeletePlayer);
+                    break;
+                case 4:
+                    menu.chooseOption(Option.EditPlayer);
                 default:
                     System.out.println("Input invalid");
                     break;
             }
         }while (option != 0 );
-
+        menu.chooseOption(Option.TournamentMenu);
     }
 
 }
