@@ -30,7 +30,6 @@ public class ApplicationLogic {
                     }catch (InputMismatchException e){
                         System.out.println("Adaugare jucator esuata (aveti grija ca datele introduse sa fie corecte) !");
                     }
-
                     break;
                 case 2:
                     menu.chooseOption(Option.ShowPlayers);
@@ -40,6 +39,7 @@ public class ApplicationLogic {
                     break;
                 case 4:
                     menu.chooseOption(Option.EditPlayer);
+                    break;
                 default:
                     System.out.println("Input invalid");
                     break;

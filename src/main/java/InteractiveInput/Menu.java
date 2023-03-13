@@ -1,17 +1,21 @@
 package InteractiveInput;
 
+import DomainModels.Club;
 import DomainModels.Player;
 import DomainModels.PlayerRequest;
 import Enums.Gender;
 import Enums.Option;
-import Service.MenuService;
+import Service.ClubService;
+import Service.PlayerService;
 
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Menu {
 
-    MenuService menuService = new MenuService();
+    PlayerService playerService = new PlayerService();
+    ClubService clubService = new ClubService();
 
     public void showPrimaryOptions(){
         System.out.println("Pagina principala :");
@@ -24,14 +28,33 @@ public class Menu {
     public  void chooseOption(Option option){
         switch (option){
             case NewPlayer:
-                System.out.println(menuService.createPlayer(getPlayerDetails()));
-
+                System.out.println(playerService.createPlayer(getPlayerDetails()));
                 break;
             case ShowPlayers:
-                menuService.showPlayers();
+                playerService.showPlayers();
+                break;
+            case EditPlayer:
+                int id = idToEdit();
+                if (playerService.getPlayer(id)==null){
+                    System.out.println("Jucatorul cu id-ul introdus nu exista");
+                }
+                else{
+                    System.out.println((playerService.getPlayer(id)));
+                    playerService.editPlayer(getPlayerDetails(),id);
+                    System.out.println("Jucatorul a fost editat cu succes");
+                }
                 break;
 
+            case DeletePlayer:
+                if (playerService.deletePlayer(idToDelete()) == 1){
+                    System.out.println("Jucatorul a fost sters cu succes");
 
+                }
+                else{
+                System.out.println("Jucatorul cu id-ul introdus nu exista");
+
+            }
+                break;
 
         }
 
@@ -64,7 +87,25 @@ public class Menu {
             System.out.println("Gender M/F  ");
 
         } while (true);
+
+        while (true){
+
+            System.out.println("Introduceti id-ul clubului din lista urmatoare:");
+            for (Map.Entry<Integer, Club> set : clubService.getClubs().entrySet()){
+                System.out.println(set.getKey().toString() + ". " + set.getValue());
+            }
+            int inputId = scanner.nextInt();
+            if (clubService.getClubs().get(inputId) != null){
+                playerRequest.setClub(clubService.getClubs().get(inputId));
+                break;
+            }
+            else{
+                System.out.println("Id club invalid");
+            }
+        }
         return playerRequest;
+
+
 
     }
     private int idToDelete (){
