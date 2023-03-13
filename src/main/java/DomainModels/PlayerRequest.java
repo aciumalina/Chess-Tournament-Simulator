@@ -8,6 +8,8 @@ public class PlayerRequest {
     String lastName;
     int currentRating;
 
+    Club club;
+
     @Override
     public String toString() {
         return "PlayerRequest{" +
@@ -40,6 +42,7 @@ public class PlayerRequest {
     public void setGender(Gender gender) {
         this.gender = gender;
     }
+    public void setClub(Club club){this.club = club;}
 
     public int getAge() {
         return age;
@@ -60,4 +63,6 @@ public class PlayerRequest {
     public Gender getGender() {
         return gender;
     }
+
+    public Club getClub(){return club;}
 }

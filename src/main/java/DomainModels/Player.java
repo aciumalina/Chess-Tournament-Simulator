@@ -12,6 +12,8 @@ public class Player implements StickmanBoyAndGirl {
     int currentRating;
     Gender gender;
 
+    Club club;
+
     public void setId(int id) {
         this.id = id;
     }
@@ -22,12 +24,13 @@ public class Player implements StickmanBoyAndGirl {
         return id;
     }
 
-    public Player(String firstName, String lastName, int age, int currentRating, Gender gender) {
+    public Player(String firstName, String lastName, int age, int currentRating, Gender gender, Club club) {
         this.age = age;
         this.firstName = firstName;
         this.lastName = lastName;
         this.currentRating = currentRating;
         this.gender = gender;
+        this.club = club;
     }
 
     @Override
@@ -40,6 +43,7 @@ public class Player implements StickmanBoyAndGirl {
                 ", currentRating=" + currentRating +
                 ", gender=" + gender +
                 ", numberOfPoints=" + numberOfPoints +
+                ", club= " + club +
                 '}';}
 
 
@@ -53,6 +57,7 @@ public class Player implements StickmanBoyAndGirl {
                 ", currentRating=" + currentRating +
                 ", gender=" + gender +
                 ", numberOfPoints=" + numberOfPoints +
+                ", club= " + club +
                 '}'+ "\n";}
     }
 }
