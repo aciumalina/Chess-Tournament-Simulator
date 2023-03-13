@@ -38,7 +38,20 @@ public class ApplicationLogic {
                     menu.chooseOption(Option.DeletePlayer);
                     break;
                 case 4:
-                    menu.chooseOption(Option.EditPlayer);
+                    try{
+                        menu.chooseOption(Option.EditPlayer);
+                    }
+                    catch (InputMismatchException e){
+                        System.out.println("Editare jucator esuata (aveti grija ca datele introduse sa fie corecte) !");
+                    }
+                    break;
+                case 5:
+                    try{
+                        menu.chooseOption(Option.NewClub);
+                    }
+                    catch (InputMismatchException e){
+                        System.out.println("Adaugare club esuata (aveti grija ca datele introduse sa fie corecte) !");
+                    }
                     break;
                 default:
                     System.out.println("Input invalid");
