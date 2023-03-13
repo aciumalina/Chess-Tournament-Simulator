@@ -10,6 +10,12 @@ public class ClubRepo {
     public static int currentId = 0;
     Map<Integer, Club> repo = new HashMap<Integer, Club>();
 
+    public Club addClubToRepo(Club club) {
+        incrementId();
+        club.setId(currentId);
+        repo.put(currentId,club);
+        return club;
+    }
     public ClubRepo(){
         repo.put(incrementId(), new Club("Clubul Central de Sah", "Bucuresti", 2004));
         repo.put(incrementId(), new Club("Clubul Sportiv Universitar", "Iasi", 2012));

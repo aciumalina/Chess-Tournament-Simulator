@@ -17,4 +17,12 @@ public class Club {
                 ", " + this.City +
                 ", fondat in anul " + this.FoundingYear;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

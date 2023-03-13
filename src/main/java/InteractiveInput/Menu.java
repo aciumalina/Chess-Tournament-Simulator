@@ -1,6 +1,7 @@
 package InteractiveInput;
 
 import DomainModels.Club;
+import DomainModels.ClubRequest;
 import DomainModels.Player;
 import DomainModels.PlayerRequest;
 import Enums.Gender;
@@ -24,6 +25,7 @@ public class Menu {
         System.out.println("2. Afiseaza toti jucatorii");
         System.out.println("3. Sterge un jucator");
         System.out.println("4. Editeaza datele unui jucator");
+        System.out.println("5. Introdu un club nou");
     }
     public  void chooseOption(Option option){
         switch (option){
@@ -56,8 +58,10 @@ public class Menu {
             }
                 break;
 
+            case NewClub:
+                System.out.println(clubService.createClub(getClubDetails()));
+                break;
         }
-
     }
     private PlayerRequest getPlayerDetails() throws InputMismatchException {
         Scanner scanner = new Scanner(System.in);
@@ -71,7 +75,6 @@ public class Menu {
         System.out.println("Current rating = ");
         playerRequest.setCurrentRating(scanner.nextInt());
         System.out.println("Gender M/F  ");
-
 
         do {
             char gender = scanner.next().charAt(0);
@@ -88,8 +91,12 @@ public class Menu {
 
         } while (true);
 
-        while (true){
+        //?
+        scanner.nextLine();
+        System.out.println("Titlu = ");
+        playerRequest.setTitle(scanner.nextLine());
 
+        while (true){
             System.out.println("Introduceti id-ul clubului din lista urmatoare:");
             for (Map.Entry<Integer, Club> set : clubService.getClubs().entrySet()){
                 System.out.println(set.getKey().toString() + ". " + set.getValue());
@@ -105,8 +112,17 @@ public class Menu {
         }
         return playerRequest;
 
-
-
+    }
+    private ClubRequest getClubDetails() throws InputMismatchException{
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Introdu numele clubului: ");
+        ClubRequest newClub = new ClubRequest();
+        newClub.setName(scanner.nextLine());
+        System.out.println("Introdu orasul: ");
+        newClub.setCity(scanner.nextLine());
+        System.out.println("Introdu anul infiintarii: ");
+        newClub.setFoundingYear(scanner.nextInt());
+        return newClub;
     }
     private int idToDelete (){
         System.out.println("Introdu id-ul jucatorului pe care vrei sa il stergi:");

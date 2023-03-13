@@ -8,7 +8,7 @@ public class PlayerService {
     PlayerRepo repo = new PlayerRepo();
 
     private Player convertPlayerReqToPlayer(PlayerRequest playerRequest){
-        return new Player(playerRequest.getFirstName(),playerRequest.getLastName(),playerRequest.getAge(), playerRequest.getCurrentRating(), playerRequest.getGender(), playerRequest.getClub());
+        return new Player(playerRequest.getFirstName(),playerRequest.getLastName(),playerRequest.getAge(), playerRequest.getCurrentRating(), playerRequest.getGender(), playerRequest.getTitle(), playerRequest.getClub());
     }
     public Player createPlayer(PlayerRequest playerRequest){
         Player player = convertPlayerReqToPlayer(playerRequest);

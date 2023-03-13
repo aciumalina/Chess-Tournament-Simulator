@@ -7,9 +7,8 @@ public class PlayerRequest {
     String firstName;
     String lastName;
     int currentRating;
-
     Club club;
-
+    String title;
     @Override
     public String toString() {
         return "PlayerRequest{" +
@@ -65,4 +64,12 @@ public class PlayerRequest {
     }
 
     public Club getClub(){return club;}
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }
