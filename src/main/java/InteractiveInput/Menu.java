@@ -38,7 +38,7 @@ public class Menu {
                 break;
             case ShowPlayers:
                 playerService.getPlayers().forEach((id, player) ->
-                        System.out.println("Jucatorul " + id + ": \n" + player));
+                        System.out.println("Jucatorul " + id + ": \n" + player.toStringWithoutAnimation()));
                 break;
             case EditPlayer:
                 int id = idToEdit();
@@ -65,10 +65,6 @@ public class Menu {
 
             case NewClub:
                 System.out.println(clubService.createClub(getClubDetails()));
-                break;
-            case StartTournament:
-                TournamentMenu tournamentMenu = new TournamentMenu();
-                tournamentMenu.switchMenu();
                 break;
         }
     }

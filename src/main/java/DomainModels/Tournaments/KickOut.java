@@ -17,17 +17,17 @@ public class KickOut extends Tournament{
     }
 
     @Override
-    ArrayList<Game> pairPlayers() {
+    public ArrayList<Game> pairPlayers() {
         return null;
     }
 
     @Override
-    ArrayList<DtoPlayer> showStandings() {
+    public ArrayList<DtoPlayer> showStandings() {
         return null;
     }
 
     @Override
-    void updatePlayersStats() {
+    public void updatePlayersStats() {
 
     }
 }

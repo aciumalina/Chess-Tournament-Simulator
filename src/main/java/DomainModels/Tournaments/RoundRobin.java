@@ -2,11 +2,13 @@ package DomainModels.Tournaments;
 
 import DomainModels.DtoPlayer;
 import DomainModels.Game;
+import DomainModels.Player;
 import DomainModels.Round;
 import Service.RoundRobinService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class RoundRobin extends Tournament{
@@ -18,17 +20,20 @@ public class RoundRobin extends Tournament{
     }
 
     @Override
-    ArrayList<Game> pairPlayers() {
+    public ArrayList<Game> pairPlayers() {
+        HashMap<Integer, Player> players = roundRobinService.getPlayers();
+        players.forEach((id, player ) -> System.out.println(player.toStringWithoutAnimation()));
+
         return null;
     }
 
     @Override
-    ArrayList<DtoPlayer> showStandings() {
+    public ArrayList<DtoPlayer> showStandings() {
         return null;
     }
 
     @Override
-    void updatePlayersStats() {
+    public void updatePlayersStats() {
 
     }
 

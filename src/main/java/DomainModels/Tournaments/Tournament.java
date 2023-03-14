@@ -28,7 +28,7 @@ public abstract class Tournament {
         //TODO
     }
 
-    abstract ArrayList<Game> pairPlayers();
-    abstract ArrayList<DtoPlayer> showStandings();
-    abstract void updatePlayersStats();
+    public abstract ArrayList<Game> pairPlayers();
+    public abstract ArrayList<DtoPlayer> showStandings();
+    public abstract void updatePlayersStats();
 }

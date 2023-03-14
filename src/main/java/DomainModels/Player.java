@@ -65,4 +65,20 @@ public class Player implements StickmanBoyAndGirl {
                 ", club= " + club +
                 '}'+ "\n";}
     }
+    public String toStringWithoutAnimation()
+    {
+
+        return   "Player{" +
+                "id=" + id +
+                ", age=" + age +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", title=" + title +
+                ", currentRating=" + currentRating +
+                ", gender=" + gender +
+                ", numberOfPoints=" + numberOfPoints +
+                ", bucholtz=" + buchholtz +
+                ", club= " + club +
+                '}'+ "\n";}
+
 }
