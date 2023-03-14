@@ -5,9 +5,10 @@ import DomainModels.Player;
 import DomainModels.PlayerRequest;
 import Enums.Gender;
 
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Scanner;
 
 public class PlayerRepo {
     public static int currentId = 0;
@@ -31,10 +32,8 @@ public class PlayerRepo {
         repo.put(currentId,player);
         return player;
     }
-    public void showPlayersFromRepo(){
-        for (Map.Entry<Integer,Player> set : repo.entrySet()){
-            System.out.println("Jucatorul " + set.getKey().toString() + ": \n" + set.getValue());
-        }
+    public HashMap<Integer,Player> getPlayersFromRepo(){
+        return (HashMap<Integer, Player>) repo;
     }
 
     public int deletePlayerFromRepo(int id )
