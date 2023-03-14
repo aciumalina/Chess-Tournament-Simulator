@@ -3,12 +3,14 @@ package DomainModels.Tournaments;
 import DomainModels.DtoPlayer;
 import DomainModels.Game;
 import DomainModels.Round;
+import Service.KickOutService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
 public class KickOut extends Tournament{
+    KickOutService kickOutService = new KickOutService();
     public KickOut(String name, LocalDateTime startDate, LocalDateTime endDate, String city, Map<Integer, Round> rounds) {
         super(name, startDate, endDate, city, rounds);
     }

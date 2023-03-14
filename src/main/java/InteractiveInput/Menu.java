@@ -33,7 +33,8 @@ public class Menu {
                 System.out.println(playerService.createPlayer(getPlayerDetails()));
                 break;
             case ShowPlayers:
-                playerService.showPlayers();
+                playerService.getPlayers().forEach((id, player) ->
+                        System.out.println("Jucatorul " + id + ": \n" + player));
                 break;
             case EditPlayer:
                 int id = idToEdit();
