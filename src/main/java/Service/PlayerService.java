@@ -4,6 +4,8 @@ import DomainModels.Player;
 import DomainModels.PlayerRequest;
 import Repos.PlayerRepo;
 
+import java.util.HashMap;
+
 public class PlayerService {
     PlayerRepo repo = new PlayerRepo();
 
@@ -15,8 +17,8 @@ public class PlayerService {
         return repo.addPlayerToRepo(player);
     }
 
-    public void showPlayers(){
-        repo.showPlayersFromRepo();
+    public HashMap<Integer,Player> getPlayers(){
+       return repo.getPlayersFromRepo();
     }
     public Player getPlayer(int id){
         return repo.getPlayerFromRepo(id);
