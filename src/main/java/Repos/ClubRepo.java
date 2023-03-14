@@ -18,9 +18,12 @@ public class ClubRepo {
     }
     public ClubRepo(){
         repo.put(incrementId(), new Club("Clubul Central de Sah", "Bucuresti", 2004));
-        repo.put(incrementId(), new Club("Clubul Sportiv Universitar", "Iasi", 2012));
-        repo.put(incrementId(), new Club("Clubul Sportiv Scolar Nr. 2", "Galati", 2015));
-        repo.put(incrementId(), new Club("Clubul Municipal de Sah", "Arad", 2003));
+        repo.put(incrementId(), new Club( "Clubul Sportiv Universitar", "Iasi", 2012));
+        repo.put(incrementId(), new Club( "Clubul Sportiv Scolar Nr. 2", "Galati", 2015));
+        repo.put(incrementId(), new Club( "Clubul Municipal de Sah", "Arad", 2003));
+        repo.put(incrementId(), new Club("Clubul Sportiv Studentesc", "Timisoara", 1999));
+        repo.put(incrementId(), new Club("Clubul Sportiv Municipal", "Iasi", 2012));
+        repo.put(incrementId(), new Club("Clubul Sportiv Scolar Nr. 5", "Constanta", 2008));
     }
     public Map<Integer, Club> getClubsFromRepo(){
         return repo;

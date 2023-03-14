@@ -53,6 +53,15 @@ public class ApplicationLogic {
                         System.out.println("Adaugare club esuata (aveti grija ca datele introduse sa fie corecte) !");
                     }
                     break;
+
+                case 6:
+                    try{
+                        menu.chooseOption(Option.StartTournament);
+                    }
+                    catch (InputMismatchException e){
+                        System.out.println("Incepere turneu esuata (aveti grija ca datele introduse sa fie corecte) !");
+                    }
+                    break;
                 default:
                     System.out.println("Input invalid");
                     break;

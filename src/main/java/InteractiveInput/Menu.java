@@ -2,13 +2,16 @@ package InteractiveInput;
 
 import DomainModels.Club;
 import DomainModels.ClubRequest;
-import DomainModels.Player;
 import DomainModels.PlayerRequest;
+import DomainModels.Tournaments.RoundRobin;
+import DomainModels.Tournaments.Tournament;
 import Enums.Gender;
 import Enums.Option;
 import Service.ClubService;
 import Service.PlayerService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
@@ -26,6 +29,7 @@ public class Menu {
         System.out.println("3. Sterge un jucator");
         System.out.println("4. Editeaza datele unui jucator");
         System.out.println("5. Introdu un club nou");
+        System.out.println("6. Start turneu");
     }
     public  void chooseOption(Option option){
         switch (option){
@@ -61,6 +65,10 @@ public class Menu {
 
             case NewClub:
                 System.out.println(clubService.createClub(getClubDetails()));
+                break;
+            case StartTournament:
+                TournamentMenu tournamentMenu = new TournamentMenu();
+                tournamentMenu.switchMenu();
                 break;
         }
     }
