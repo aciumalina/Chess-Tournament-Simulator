@@ -12,7 +12,7 @@ public class Player implements StickmanBoyAndGirl {
     String title;
     Gender gender;
     Club club;
-    double bucholtz = 0;
+    double buchholtz = 0;
 
     public void setId(int id) {
         this.id = id;
@@ -45,7 +45,7 @@ public class Player implements StickmanBoyAndGirl {
                 ", currentRating=" + currentRating +
                 ", gender=" + gender +
                 ", numberOfPoints=" + numberOfPoints +
-                ", bucholtz=" + bucholtz +
+                ", bucholtz=" + buchholtz +
                 ", club= " + club +
                 '}';}
 
@@ -61,7 +61,7 @@ public class Player implements StickmanBoyAndGirl {
                 ", currentRating=" + currentRating +
                 ", gender=" + gender +
                 ", numberOfPoints=" + numberOfPoints +
-                ", bucholtz=" + bucholtz +
+                ", bucholtz=" + buchholtz +
                 ", club= " + club +
                 '}'+ "\n";}
     }
