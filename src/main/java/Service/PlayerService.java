@@ -7,7 +7,7 @@ import Repos.PlayerRepo;
 import java.util.HashMap;
 
 public class PlayerService {
-    PlayerRepo repo = new PlayerRepo();
+    PlayerRepo repo = PlayerRepo.getInstance();
 
     private Player convertPlayerReqToPlayer(PlayerRequest playerRequest){
         return new Player(playerRequest.getFirstName(),playerRequest.getLastName(),playerRequest.getAge(), playerRequest.getCurrentRating(), playerRequest.getGender(), playerRequest.getTitle(), playerRequest.getClub());

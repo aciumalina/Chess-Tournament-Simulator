@@ -2,22 +2,25 @@ package InteractiveInput;
 
 import DomainModels.Tournaments.RoundRobin;
 import DomainModels.Tournaments.Tournament;
+import Enums.Option;
+import Enums.TournamentOption;
+import Service.RoundRobinService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class TournamentMenu {
+    Tournament tournament;
+
     public void showOptions(){
-
+        System.out.println("0. Incheie simularea turneului");
+        System.out.println("1. Incepeti runda");
+        System.out.println("2. Arata clasamentul actual");
     }
-    public void switchMenu(){
-        getTournamentDetails();
 
-    }
-    public Tournament getTournamentDetails(){
+    public TournamentMenu(){
         Scanner scanner = new Scanner(System.in);
-        Tournament tournament = null;
         while (true) {
             System.out.println("Introdu tipul turneului (Round Robin/Kick Out Format)");
             System.out.println("Round Robin - optiunea 1");
@@ -34,7 +37,7 @@ public class TournamentMenu {
                 LocalDate data = LocalDate.parse(dataString, formatter);
                 System.out.println("Introdu orasul care gazduieste turneul: ");
                 String city = scanner.nextLine();
-                tournament = new RoundRobin(name, LocalDate.now(), data, city);
+                this.tournament = new RoundRobin(name, LocalDate.now(), data, city);
                 break;
             }
             if (optiune == 2) {
@@ -44,7 +47,16 @@ public class TournamentMenu {
                 System.out.println("Optiune invalida!");
             }
         }
-        return tournament;
+    }
+    public void chooseOption(TournamentOption option){
+        switch (option){
+            case PAIR_PLAYERS:
+                tournament.pairPlayers();
+                break;
+            case SHOW_STANDINGS:
+
+                break;
+        }
     }
 
 }

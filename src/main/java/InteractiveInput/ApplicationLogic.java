@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class ApplicationLogic {
     public static void runApp(){
         Scanner scanner = new Scanner(System.in);
-        Menu menu = new Menu();;
+        Menu menu = new Menu();
 
         int option = 11;
         do {
@@ -55,12 +55,14 @@ public class ApplicationLogic {
                     break;
 
                 case 6:
-                    try{
-                        menu.chooseOption(Option.StartTournament);
-                    }
-                    catch (InputMismatchException e){
-                        System.out.println("Incepere turneu esuata (aveti grija ca datele introduse sa fie corecte) !");
-                    }
+                    ApplicationLogicTournament.runTournament();
+
+//                    try{
+//                        menu.chooseOption(Option.StartTournament);
+//                    }
+//                    catch (InputMismatchException e){
+//                        System.out.println("Incepere turneu esuata (aveti grija ca datele introduse sa fie corecte) !");
+//                    }
                     break;
                 default:
                     System.out.println("Input invalid");

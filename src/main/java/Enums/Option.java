@@ -6,6 +6,5 @@ public enum Option {
     ShowPlayers,
     DeletePlayer,
     EditPlayer,
-    NewClub,
-    StartTournament
+    NewClub
 }
