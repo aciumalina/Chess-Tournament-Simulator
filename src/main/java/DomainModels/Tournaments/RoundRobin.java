@@ -5,7 +5,7 @@ import DomainModels.Game;
 import DomainModels.Round;
 import Service.RoundRobinService;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -13,8 +13,8 @@ public class RoundRobin extends Tournament{
 
     RoundRobinService roundRobinService = new RoundRobinService();
 
-    public RoundRobin(String name, LocalDateTime startDate, LocalDateTime endDate, String city, Map<Integer, Round> rounds) {
-        super(name, startDate, endDate, city, rounds);
+    public RoundRobin(String name, LocalDate startDate, LocalDate endDate, String city) {
+        super(name, startDate, endDate, city);
     }
 
     @Override
