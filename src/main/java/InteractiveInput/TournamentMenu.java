@@ -1,12 +1,15 @@
 package InteractiveInput;
 
+import DomainModels.Tournaments.KickOut;
 import DomainModels.Tournaments.RoundRobin;
 import DomainModels.Tournaments.Tournament;
+import DomainModels.Tournaments.TournamentRequest;
 import Enums.Option;
 import Enums.TournamentOption;
 import Service.RoundRobinService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -21,27 +24,24 @@ public class TournamentMenu {
 
     public TournamentMenu(){
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Introdu tipul turneului (Round Robin/Kick Out Format)");
+        System.out.println("Round Robin - optiunea 1");
+        System.out.println("Kick Out - optiunea 2");
+        int optiune = scanner.nextInt();
         while (true) {
-            System.out.println("Introdu tipul turneului (Round Robin/Kick Out Format)");
-            System.out.println("Round Robin - optiunea 1");
-            System.out.println("Kick Out - optiunea 2");
-            int optiune = scanner.nextInt();
-            if (optiune == 1) {
+            if (optiune == 1)
+            {
                 System.out.println("Ati ales turneu de tip Round Robin");
-                System.out.println("Introdu numele turneului: ");
-                scanner.next();
-                String name = scanner.nextLine();
-                System.out.println("Introdu data finalizarii: ");
-                String dataString = scanner.nextLine();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
-                LocalDate data = LocalDate.parse(dataString, formatter);
-                System.out.println("Introdu orasul care gazduieste turneul: ");
-                String city = scanner.nextLine();
-                this.tournament = new RoundRobin(name, LocalDate.now(), data, city);
+                TournamentRequest tournamentRequest = getTournamentDetails();
+                this.tournament = new RoundRobin(tournamentRequest.getName(),tournamentRequest.getStartDate(),tournamentRequest.getEndDate(),tournamentRequest.getCity());
                 break;
             }
+                
+
             if (optiune == 2) {
                 System.out.println("Ati ales turneu de tip Kick Out");
+                TournamentRequest tournamentRequest2 = getTournamentDetails();
+                this.tournament = new KickOut(tournamentRequest2.getName(),tournamentRequest2.getStartDate(),tournamentRequest2.getEndDate(),tournamentRequest2.getCity());
                 break;
             } else {
                 System.out.println("Optiune invalida!");
@@ -58,5 +58,19 @@ public class TournamentMenu {
                 break;
         }
     }
+    private TournamentRequest getTournamentDetails() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Introdu numele turneului: ");
+        String name = scanner.nextLine();
+        System.out.println("Introdu data finalizarii: ");
+        String dataString = scanner.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+        LocalDate data = LocalDate.parse(dataString, formatter);
+        System.out.println("Introdu orasul care gazduieste turneul: ");
+        String city = scanner.nextLine();
+        return new TournamentRequest(name, LocalDate.now(), data, city);
+    }
+
 
 }
