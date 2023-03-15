@@ -1,13 +1,10 @@
 package DomainModels.Tournaments;
 
 import DomainModels.DtoPlayer;
-import DomainModels.Game;
 import DomainModels.Round;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public abstract class Tournament {
@@ -28,7 +25,7 @@ public abstract class Tournament {
         //TODO
     }
 
-    public abstract ArrayList<Game> pairPlayers();
+    public abstract ArrayList<Round> pairPlayers();
     public abstract ArrayList<DtoPlayer> showStandings();
     public abstract void updatePlayersStats();
 }

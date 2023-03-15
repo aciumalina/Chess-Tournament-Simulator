@@ -6,6 +6,4 @@ public class Game {
     int idWhite;
     int idBlack;
     Result result;
-
-
 }
