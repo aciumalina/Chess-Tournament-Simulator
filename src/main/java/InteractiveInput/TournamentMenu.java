@@ -9,6 +9,7 @@ import DomainModels.Tournaments.TournamentRequest;
 import Enums.Option;
 import Enums.Result;
 import Enums.TournamentOption;
+import Repos.PlayerRepo;
 import Service.RoundRobinService;
 
 import java.time.LocalDate;
@@ -19,12 +20,16 @@ import java.util.Scanner;
 
 public class TournamentMenu {
     Tournament tournament;
+    PlayerRepo repo = PlayerRepo.getInstance();
 
     public void showOptions(){
         System.out.println("0. Incheie simularea turneului");
         System.out.println("1. Incepeti runda");
         System.out.println("2. Arata clasamentul actual");
     }
+
+
+
 
     public TournamentMenu(){
         Scanner scanner = new Scanner(System.in);
@@ -44,6 +49,10 @@ public class TournamentMenu {
 
             if (optiune == 2) {
                 System.out.println("Ati ales turneu de tip Kick Out");
+                if (!powerOfTwoBitwise(repo.getNumberOfPlayers())){
+                    System.out.println("Nu puteti incepe acest tip de turneu! ( trebuie ca numarul de jucatori sa fie putere a lui 2 ");
+                    break;
+                }
                 TournamentRequest tournamentRequest2 = getTournamentDetails();
                 this.tournament = new KickOut(tournamentRequest2.getName(),tournamentRequest2.getStartDate(),tournamentRequest2.getEndDate(),tournamentRequest2.getCity());
                 break;
@@ -116,6 +125,11 @@ public class TournamentMenu {
         System.out.println("Introdu orasul care gazduieste turneul: ");
         String city = scanner.nextLine();
         return new TournamentRequest(name, LocalDate.now(), data, city);
+    }
+
+    private boolean powerOfTwoBitwise(int n)
+    {
+        return (n & n-1)==0;
     }
 
 
