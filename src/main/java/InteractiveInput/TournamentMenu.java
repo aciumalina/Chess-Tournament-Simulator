@@ -1,5 +1,6 @@
 package InteractiveInput;
 
+import DomainModels.DtoPlayer;
 import DomainModels.Game;
 import DomainModels.Tournaments.KickOut;
 import DomainModels.Tournaments.RoundRobin;
@@ -56,6 +57,12 @@ public class TournamentMenu {
         switch (option){
             case PAIR_PLAYERS:
                 ArrayList<Game> games = tournament.pairPlayers().getGames();
+                if ( games.size() == 0)
+                {
+                    System.out.println("Turneul s-a incheiat! Iata rezultatul final: \n \n");
+                    chooseOption(TournamentOption.SHOW_STANDINGS);
+                    break;
+                }
                 int i;
                 for (i=0;i<games.size();i++)
                 {
@@ -85,7 +92,11 @@ public class TournamentMenu {
 
                 break;
             case SHOW_STANDINGS:
-                System.out.println(tournament.showStandings());
+                ArrayList<DtoPlayer> playersToShow = tournament.showStandings();
+                for ( int j=0; j<playersToShow.size();j++)
+                {
+                    System.out.println("Locul " + (j+1) + ". " + playersToShow.get(j));
+                }
 
 
                 break;
