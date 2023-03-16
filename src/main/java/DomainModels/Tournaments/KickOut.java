@@ -31,11 +31,13 @@ public class KickOut extends Tournament{
 
     @Override
     public ArrayList<DtoPlayer> showStandings() {
-        return null;
+        System.out.println("Jucatorii ramasi: \n \n");
+        return kickOutService.getRemainingPlayers();
     }
 
     @Override
     public void updatePlayersStats() {
+        kickOutService.deleteLosingPlayersAndGetRemainingOnes(this.rounds.get(rounds.size()));
 
     }
 

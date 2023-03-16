@@ -17,6 +17,14 @@ public class Game {
         return result;
     }
 
+    public int getIdWhite() {
+        return idWhite;
+    }
+
+    public int getIdBlack() {
+        return idBlack;
+    }
+
     public void setResult(Result result) {
         this.result = result;
     }

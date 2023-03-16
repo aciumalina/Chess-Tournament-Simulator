@@ -1,11 +1,10 @@
 package Service;
 
-import DomainModels.Game;
+import DomainModels.*;
+import Enums.Result;
 import Repos.PlayerRepo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class KickOutService {
     private static final PlayerRepo repo = PlayerRepo.getInstance();
@@ -26,4 +25,37 @@ public class KickOutService {
     {
         return new Game(indexA,indexB);
     }
+
+    public HashMap<Integer, Player> deleteLosingPlayersAndGetRemainingOnes(Round round){
+        ArrayList<Game> games = round.getGames();
+        int i;
+        Game currentGame;
+        for (i=0;i<games.size();i++)
+        {
+            currentGame = games.get(i);
+            deleteLosingPlayerFromRepo(currentGame);
+        }
+        return repo.getPlayersFromRepo();
+
+
+    }
+    private void deleteLosingPlayerFromRepo(Game game ){
+        if (game.getResult() == Result.BLACK)
+            repo.deletePlayerFromRepo(game.getIdWhite());
+        if (game.getResult() == Result.WHITE)
+            repo.deletePlayerFromRepo(game.getIdBlack());
+    }
+    public ArrayList<DtoPlayer> getRemainingPlayers(){
+
+        ArrayList<DtoPlayer> dtoPlayers = new ArrayList<>();
+        for ( Map.Entry<Integer,Player> set : repo.getPlayersFromRepo().entrySet()) {
+            dtoPlayers.add(convertPlayerToDtoPlayer(set.getValue()));
+        }
+        return  dtoPlayers;
+
+    }
+    private DtoPlayer convertPlayerToDtoPlayer (Player player){
+        return  new DtoPlayer(player.getId(), player.getFirstName(), player.getLastName());
+    }
+
 }

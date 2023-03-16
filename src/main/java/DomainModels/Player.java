@@ -9,6 +9,15 @@ public class Player implements StickmanBoyAndGirl {
     String firstName;
     String lastName;
     int currentRating;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
     String title;
     Gender gender;
     Club club;
