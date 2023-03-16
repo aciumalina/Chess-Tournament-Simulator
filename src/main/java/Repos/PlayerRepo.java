@@ -64,4 +64,9 @@ public class PlayerRepo {
     public Player getPlayerFromRepo(int id){
         return repo.get(id);
     }
+
+    public int getNumberOfPlayers()
+    {
+        return  repo.size();
+    }
 }

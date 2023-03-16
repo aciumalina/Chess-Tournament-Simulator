@@ -12,21 +12,6 @@ public class Game {
         this.idBlack = idBlack;
     }
 
-    public int getIdWhite() {
-        return idWhite;
-    }
-
-    public void setIdWhite(int idWhite) {
-        this.idWhite = idWhite;
-    }
-
-    public int getIdBlack() {
-        return idBlack;
-    }
-
-    public void setIdBlack(int idBlack) {
-        this.idBlack = idBlack;
-    }
 
     public Result getResult() {
         return result;
@@ -34,5 +19,18 @@ public class Game {
 
     public void setResult(Result result) {
         this.result = result;
+    }
+
+    public void showPlayingPlayers()
+    {
+        System.out.println("Jucatorul " + idWhite + "(piesele albe) vs " + " Jucatorul " + idBlack + "(piesele negre)");
+    }
+    @Override
+    public String toString() {
+        return "Game{" +
+                "idWhite=" + idWhite +
+                ", idBlack=" + idBlack +
+                ", result=" + result +
+                '}';
     }
 }

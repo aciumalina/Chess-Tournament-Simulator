@@ -19,7 +19,7 @@ public class RoundRobin extends Tournament{
     }
 
     @Override
-    public ArrayList<Round> pairPlayers() {
+    public Round pairPlayers() {
         HashMap<Integer, Player> players = roundRobinService.getPlayers();
         ArrayList<Round> runde = new ArrayList<Round>();
         ArrayList<Game> allGames = new ArrayList<Game>();

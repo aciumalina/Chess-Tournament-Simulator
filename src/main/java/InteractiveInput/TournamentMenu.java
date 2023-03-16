@@ -1,16 +1,19 @@
 package InteractiveInput;
 
+import DomainModels.Game;
 import DomainModels.Tournaments.KickOut;
 import DomainModels.Tournaments.RoundRobin;
 import DomainModels.Tournaments.Tournament;
 import DomainModels.Tournaments.TournamentRequest;
 import Enums.Option;
+import Enums.Result;
 import Enums.TournamentOption;
 import Service.RoundRobinService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TournamentMenu {
@@ -49,13 +52,43 @@ public class TournamentMenu {
         }
     }
     public void chooseOption(TournamentOption option){
+        Scanner scanner = new Scanner(System.in);
         switch (option){
             case PAIR_PLAYERS:
-                tournament.pairPlayers();
+                ArrayList<Game> games = tournament.pairPlayers().getGames();
+                int i;
+                for (i=0;i<games.size();i++)
+                {
+                    Result result = null;
+                    Game currentGame = games.get(i);
+                    currentGame.showPlayingPlayers();
+                    System.out.println("\n1 -- pentru victorie alb");
+                    System.out.println("2 -- pentru remiza");
+                    System.out.println("3 -- pentru victorie negru");
+                    int option2 = scanner.nextInt();
+                    switch (option2){
+                        case 1:
+                            result = Result.WHITE;
+                            break;
+                        case 2:
+                            result = Result.DRAW;
+                            break;
+                        case 3:
+                            result = Result.BLACK;
+                            break;
+                    }
+                    tournament.inputResult(i, result);
+                }
+
                 break;
             case SHOW_STANDINGS:
 
+
                 break;
+
+
+
+
         }
     }
     private TournamentRequest getTournamentDetails() {

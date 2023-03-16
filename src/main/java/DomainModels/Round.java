@@ -26,4 +26,12 @@ public class Round {
     public void setGames(ArrayList<Game> games) {
         this.games = games;
     }
+
+    @Override
+    public String toString() {
+        return "Round{" +
+                "roundNumber=" + roundNumber +
+                ", games=" + games +
+                '}';
+    }
 }
