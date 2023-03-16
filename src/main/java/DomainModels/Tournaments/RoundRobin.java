@@ -18,7 +18,7 @@ public class RoundRobin extends Tournament{
     }
 
     @Override
-    public ArrayList<Round> pairPlayers() {
+    public Round pairPlayers() {
         HashMap<Integer, Player> players = roundRobinService.getPlayers();
         players.forEach((id, player ) -> System.out.println(player.toStringWithoutAnimation()));
 
