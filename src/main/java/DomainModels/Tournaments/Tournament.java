@@ -24,7 +24,8 @@ public abstract class Tournament {
     }
 
     public void inputResult(int gameId, Result result){
-        //luam ultima runda din rounds si adaugam resultatul meciului
+        //luam ultima runda din rounds si adaugam rezultatul meciului
+        this.rounds.get(rounds.size()).getGames().get(gameId).setResult(result);
     }
 
     public abstract Round pairPlayers();
