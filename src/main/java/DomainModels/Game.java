@@ -4,14 +4,14 @@ import Enums.Result;
 
 public class Game {
     int idWhite;
+    int idBlack;
+    Result result;
 
-    public Game(int idWhite, int idBlack) {
+    public Game(int idWhite, int idBlack){
         this.idWhite = idWhite;
         this.idBlack = idBlack;
     }
 
-    int idBlack;
-    Result result;
 
     public Result getResult() {
         return result;
@@ -28,6 +28,7 @@ public class Game {
     public void setResult(Result result) {
         this.result = result;
     }
+
     public void showPlayingPlayers()
     {
         System.out.println("Jucatorul " + idWhite + "(piesele albe) vs " + " Jucatorul " + idBlack + "(piesele negre)");

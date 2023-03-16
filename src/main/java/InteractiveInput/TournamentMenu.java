@@ -94,8 +94,10 @@ public class TournamentMenu {
                             break;
                     }
                     tournament.inputResult(i, result);
+
                 }
                 tournament.updatePlayersStats();
+
 
                 break;
             case SHOW_STANDINGS:

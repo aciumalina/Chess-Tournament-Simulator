@@ -29,8 +29,10 @@ public abstract class Tournament {
         this.rounds.get(rounds.size()).getGames().get(gameId).setResult(result);
     }
 
+
     public abstract Round pairPlayers();
     public abstract ArrayList<DtoPlayer> showStandings();
     public abstract void updatePlayersStats();
+
 
 }
