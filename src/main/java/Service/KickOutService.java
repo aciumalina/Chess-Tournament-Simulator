@@ -2,6 +2,7 @@ package Service;
 
 import DomainModels.*;
 import Enums.Result;
+import Enums.Winner;
 import Repos.PlayerRepo;
 
 import java.util.*;
@@ -35,17 +36,48 @@ public class KickOutService {
         for (i=0;i<games.size();i++)
         {
             currentGame = games.get(i);
-            deleteLosingPlayerFromRepo(currentGame);
+            if (deleteLosingPlayerFromRepo(currentGame) == Winner.NO)
+            {
+                currentGame.setResult(playArmagedon(currentGame));
+                deleteLosingPlayerFromRepo(currentGame);
+            }
         }
         return repo.getPlayersFromRepo();
 
 
     }
-    private void deleteLosingPlayerFromRepo(Game game ){
+    private Result playArmagedon(Game game){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Care a fost rezultatul armagedonului dintre " + game.getIdWhite()+ " si " + game.getIdBlack()+ "?");
+        System.out.println("\n1 -- a castigat alb");
+        System.out.println("2 -- a fost remiza sau a castigat negru");
+
+        Result result = null;
+        int option2 = scanner.nextInt();
+        switch (option2){
+            case 1:
+                result = Result.WHITE;
+                break;
+            case 2:
+                result = Result.BLACK;
+                break;
+        }
+        return result;
+
+    }
+    private Winner deleteLosingPlayerFromRepo(Game game ){
         if (game.getResult() == Result.BLACK)
+        {
             repo.deletePlayerFromRepo(game.getIdWhite());
+            return Winner.YES;
+        }
+
         if (game.getResult() == Result.WHITE)
+        {
             repo.deletePlayerFromRepo(game.getIdBlack());
+            return Winner.YES;
+        }
+            return Winner.NO;
     }
     public ArrayList<DtoPlayer> getRemainingPlayers(){
 
