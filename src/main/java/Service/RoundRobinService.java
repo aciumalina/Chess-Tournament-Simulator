@@ -25,11 +25,5 @@ public class RoundRobinService {
             return new Game(j,i);
     }
 
-    public ArrayList<Round> createRounds(ArrayList<Game> games){
-        int noOfRounds = this.getPlayers().size()-1;
-        Map<Integer, Integer> occurances = new HashMap<Integer, Integer>();
-        for (Game game: games){
 
-        }
-    }
 }
