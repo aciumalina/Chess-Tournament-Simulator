@@ -59,7 +59,7 @@ public class KickOutService {
 
     }
     private DtoPlayer convertPlayerToDtoPlayer (Player player){
-        return  new DtoPlayer(player.getId(), player.getFirstName(), player.getLastName() ,player.getCurrentRating());
+        return new DtoPlayer(player.getId(), player.getFirstName(), player.getLastName() ,player.getCurrentRating());
     }
 
 }

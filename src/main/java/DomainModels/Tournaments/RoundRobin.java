@@ -17,25 +17,23 @@ public class RoundRobin extends Tournament{
     RoundRobinService roundRobinService = new RoundRobinService();
     int noOfPlayers;
 
-    private static int roundNumber = 0 ;
-//    HashMap<Integer, Player> players = roundRobinService.getPlayers();
-//    ArrayList<Integer> playersId = new ArrayList<>(players.keySet());
+    private static int roundNumber = 0;
 
-    int[][] matrix;
+    int[][] pairingsTable;
 
     public RoundRobin(String name, LocalDate startDate, LocalDate endDate, String city) {
         super(name, startDate, endDate, city);
 
         noOfPlayers = roundRobinService.getNumberOfPlayersFromRepo();
-        matrix = new int[noOfPlayers+1][noOfPlayers+1]; // crearea matricei
+        pairingsTable = new int[noOfPlayers+1][noOfPlayers+1]; // crearea matricei
 
         // initializarea matricei cu 0-uri si setarea valorii 1 pe diagonala principala
         for (int i = 0; i < noOfPlayers+1; i++) {
             for (int j = 0; j < noOfPlayers+1; j++) {
                 if (i == j) {
-                    matrix[i][j] = 1;
+                    pairingsTable[i][j] = 1;
                 } else {
-                    matrix[i][j] = 0;
+                    pairingsTable[i][j] = 0;
                 }
             }
         }
@@ -56,16 +54,14 @@ public class RoundRobin extends Tournament{
             for(int j = 1; j < noOfPlayers+1; j++){
                 if(paired[j] == 1)
                     continue;
-                if (matrix[i][j] == 0)
+                if (pairingsTable[i][j] == 0)
                 {
                     games.add(roundRobinService.createGame(i,j));
-                    //System.out.println(i);
-                    matrix[i][j] = 1;
-                    matrix[j][i] = 1;
+                    pairingsTable[i][j] = 1;
+                    pairingsTable[j][i] = 1;
                     paired[i] = paired[j] = 1;
                     break;
                 }
-
             }
         }
 
@@ -78,8 +74,17 @@ public class RoundRobin extends Tournament{
     public ArrayList<DtoPlayer> showStandings() {
         HashMap<Integer, Player> players = roundRobinService.getPlayers();
         ArrayList<Player> playerList = new ArrayList<Player>(players.values());
-        Comparator<Player> byPoints = Comparator.comparing(Player::getNumberOfPoints);
-        playerList.sort(byPoints);
+        Comparator<Player> byPointsThenBucholtz = Comparator.comparing(Player::getNumberOfPoints)
+                                                            .reversed()
+                                                            .thenComparing(Comparator.comparing(Player::getBuchholtz).reversed())
+                                                            ;
+        Collections.sort(playerList, byPointsThenBucholtz);
+
+        ArrayList<DtoPlayer> dtoPlayers = new ArrayList<DtoPlayer>();
+        for (Player player: playerList){
+            dtoPlayers.add(new DtoPlayer(player.getId(), player.getFirstName(), player.getLastName(), player.getCurrentRating(), player.getNumberOfPoints(), player.getBuchholtz()));
+        }
+        return dtoPlayers;
     }
 
     @Override

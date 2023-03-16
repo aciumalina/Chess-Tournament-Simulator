@@ -38,9 +38,6 @@ public class Player implements StickmanBoyAndGirl {
         return id;
     }
 
-    public int getCurrentRating() {
-        return currentRating;
-    }
 
     public void setCurrentRating(int currentRating) {
         this.currentRating = currentRating;
