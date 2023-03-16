@@ -79,9 +79,11 @@ public class TournamentMenu {
                     }
                     tournament.inputResult(i, result);
                 }
+                tournament.updatePlayersStats();
 
                 break;
             case SHOW_STANDINGS:
+                System.out.println(tournament.showStandings());
 
 
                 break;
