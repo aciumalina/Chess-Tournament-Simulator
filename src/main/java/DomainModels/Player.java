@@ -8,6 +8,11 @@ public class Player implements StickmanBoyAndGirl {
     int age;
     String firstName;
     String lastName;
+
+    public int getCurrentRating() {
+        return currentRating;
+    }
+
     int currentRating;
 
     public String getFirstName() {

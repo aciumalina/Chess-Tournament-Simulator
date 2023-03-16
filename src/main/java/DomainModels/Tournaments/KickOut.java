@@ -23,6 +23,8 @@ public class KickOut extends Tournament{
     @Override
     public Round pairPlayers() {
         ArrayList<Game> games = kickOutService.getGames();
+        if (games == null)
+            return new Round(roundNumber, new ArrayList<>());
         incrementRoundNumber();
         Round curentRound = new Round(roundNumber, games);
         this.rounds.put(roundNumber,curentRound);
@@ -31,7 +33,6 @@ public class KickOut extends Tournament{
 
     @Override
     public ArrayList<DtoPlayer> showStandings() {
-        System.out.println("Jucatorii ramasi: \n \n");
         return kickOutService.getRemainingPlayers();
     }
 

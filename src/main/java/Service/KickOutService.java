@@ -12,6 +12,8 @@ public class KickOutService {
     public ArrayList<Game> getGames(){
         ArrayList<Game> games = new ArrayList<>();
         List<Integer> randomArray = new ArrayList<>(repo.getPlayersFromRepo().keySet());
+        if (randomArray.size() == 1)
+            return null;
         Collections.shuffle(randomArray);
         int numberOfPLayers = repo.getNumberOfPlayers();
         int i;
@@ -50,12 +52,14 @@ public class KickOutService {
         ArrayList<DtoPlayer> dtoPlayers = new ArrayList<>();
         for ( Map.Entry<Integer,Player> set : repo.getPlayersFromRepo().entrySet()) {
             dtoPlayers.add(convertPlayerToDtoPlayer(set.getValue()));
+
         }
+
         return  dtoPlayers;
 
     }
     private DtoPlayer convertPlayerToDtoPlayer (Player player){
-        return  new DtoPlayer(player.getId(), player.getFirstName(), player.getLastName());
+        return  new DtoPlayer(player.getId(), player.getFirstName(), player.getLastName() ,player.getCurrentRating());
     }
 
 }
