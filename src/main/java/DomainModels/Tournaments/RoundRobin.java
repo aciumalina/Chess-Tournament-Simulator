@@ -8,58 +8,86 @@ import Service.RoundRobinService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Set;
 
 public class RoundRobin extends Tournament{
 
     RoundRobinService roundRobinService = new RoundRobinService();
+    int noOfPlayers;
 
     private static int roundNumber = 0 ;
-    HashMap<Integer, Player> players = roundRobinService.getPlayers();
-    ArrayList<Integer> playersId = new ArrayList<>(players.keySet());
+//    HashMap<Integer, Player> players = roundRobinService.getPlayers();
+//    ArrayList<Integer> playersId = new ArrayList<>(players.keySet());
+
+    int[][] matrix;
 
     public RoundRobin(String name, LocalDate startDate, LocalDate endDate, String city) {
         super(name, startDate, endDate, city);
+
+        noOfPlayers = roundRobinService.getNumberOfPlayersFromRepo();
+        matrix = new int[noOfPlayers+1][noOfPlayers+1]; // crearea matricei
+
+        // initializarea matricei cu 0-uri si setarea valorii 1 pe diagonala principala
+        for (int i = 0; i < noOfPlayers+1; i++) {
+            for (int j = 0; j < noOfPlayers+1; j++) {
+                if (i == j) {
+                    matrix[i][j] = 1;
+                } else {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
     }
 
     @Override
     public Round pairPlayers() {
         incrementRoundNumber();
         ArrayList<Game> games = new ArrayList<Game>();
-        //players.forEach((id, player ) -> System.out.println(player.toStringWithoutAnimation()));
-//        for(int i = 0; i < players.size() - 1; i++)
-//            for(int j = i + 1; j < players.size(); j++)
-//                allGames.add(roundRobinService.createGame(i,j));
+        int[] paired = new int[noOfPlayers+1];
+        for (int i = 0; i < noOfPlayers+1; i++)
+            paired[i] = 0;
 
-        int n = players.size();
-        for(int i = 0; i < n-1; i++){
-            for (int j = 0; j < n / 2; j++) {
-                int k = (n - 1) - j; // calculăm indexul pentru a doua pereche
+        for(int i = 1; i < noOfPlayers+1; i ++)
+        {
+            if (paired[i] == 1)
+                continue;
+            for(int j = 1; j < noOfPlayers+1; j++){
+                if(paired[j] == 1)
+                    continue;
+                if (matrix[i][j] == 0)
+                {
+                    games.add(roundRobinService.createGame(i,j));
+                    //System.out.println(i);
+                    matrix[i][j] = 1;
+                    matrix[j][i] = 1;
+                    paired[i] = paired[j] = 1;
+                    break;
+                }
 
-                // Afisam perechea de numere
-                games.add(roundRobinService.createGame(j,k));
-                System.out.println("(" + playersId.get(j)+ "," + playersId.get(k) + ")");
             }
-            int temp = playersId.get(n-1);
-            for (int j = n - 1; j > 1; j--)
-                playersId.set(j, playersId.get(j-2));
-            playersId.set(1,temp);
-            break;
         }
+
         Round currentRound = new Round(roundNumber, games);
-        this.rounds.put(roundNumber,currentRound);
+        this.rounds.put(roundNumber, currentRound);
         return currentRound;
     }
 
     @Override
     public ArrayList<DtoPlayer> showStandings() {
-        return null;
+        HashMap<Integer, Player> players = roundRobinService.getPlayers();
+        ArrayList<Player> playerList = new ArrayList<Player>(players.values());
+        Comparator<Player> byPoints = Comparator.comparing(Player::getNumberOfPoints);
+        playerList.sort(byPoints);
     }
 
     @Override
     public void updatePlayersStats() {
-
+        Round lastRound = rounds.get(rounds.size());
+        for (Game game: lastRound.getGames()){
+            roundRobinService.updatePlayersStats(game);
+        }
     }
 
     private static void incrementRoundNumber(){

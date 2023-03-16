@@ -33,6 +33,30 @@ public class Player implements StickmanBoyAndGirl {
         return id;
     }
 
+    public int getCurrentRating() {
+        return currentRating;
+    }
+
+    public void setCurrentRating(int currentRating) {
+        this.currentRating = currentRating;
+    }
+
+    public double getBuchholtz() {
+        return buchholtz;
+    }
+
+    public void setBuchholtz(double buchholtz) {
+        this.buchholtz = buchholtz;
+    }
+
+    public double getNumberOfPoints() {
+        return numberOfPoints;
+    }
+
+    public void setNumberOfPoints(double numberOfPoints) {
+        this.numberOfPoints = numberOfPoints;
+    }
+
     public Player(String firstName, String lastName, int age, int currentRating, Gender gender, String title, Club club) {
         this.age = age;
         this.firstName = firstName;
