@@ -7,6 +7,7 @@ import Enums.Result;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Tournament {
@@ -14,7 +15,7 @@ public abstract class Tournament {
     LocalDate startDate;
     LocalDate endDate;
     String city;
-    Map<Integer, Round> rounds;
+    Map<Integer, Round> rounds = new HashMap<>();
 
     public Tournament(String name, LocalDate startDate, LocalDate endDate, String city) {
         this.name = name;
