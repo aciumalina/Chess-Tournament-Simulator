@@ -9,6 +9,7 @@ import DomainModels.Tournaments.TournamentRequest;
 import Enums.Option;
 import Enums.Result;
 import Enums.TournamentOption;
+import Errors.CustomError;
 import Repos.PlayerRepo;
 import Service.RoundRobinService;
 
@@ -35,23 +36,22 @@ public class TournamentMenu {
 
     public TournamentMenu(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Introdu tipul turneului (Round Robin/Kick Out Format)");
-        System.out.println("Round Robin - optiunea 1");
-        System.out.println("Kick Out - optiunea 2");
-        int optiune = scanner.nextInt();
         while (true) {
+            System.out.println("Introdu tipul turneului (Round Robin/Kick Out Format)");
+            System.out.println("Round Robin - optiunea 1");
+            System.out.println("Kick Out - optiunea 2");
+            int optiune = scanner.nextInt();
             if (optiune == 1)
             {
                 System.out.println("Ati ales turneu de tip Round Robin");
                 if(!evenNumber(repo.getNumberOfPlayers())){
-                    System.out.println("Nu puteti incepe acest tip de turneu! ( trebuie ca numarul de jucatori sa fie par ");
+                    System.out.println("Nu puteti incepe acest tip de turneu! ( trebuie ca numarul de jucatori sa fie par) ");
                     break;
                 }
                 TournamentRequest tournamentRequest = getTournamentDetails();
                 this.tournament = new RoundRobin(tournamentRequest.getName(),tournamentRequest.getStartDate(),tournamentRequest.getEndDate(),tournamentRequest.getCity());
                 break;
             }
-                
 
             if (optiune == 2) {
                 System.out.println("Ati ales turneu de tip Kick Out");
@@ -108,11 +108,11 @@ public class TournamentMenu {
                                     break;
                                 default:
                                     //System.out.println("Rezultat invalid!");
-                                    throw new InputMismatchException();
+                                    throw new CustomError("Rezultat invalid");
                         }
                     }
-                        catch (InputMismatchException e){
-                            System.out.println("Rezultat invalid");
+                        catch (CustomError err){
+                            System.out.println(err.getMessage());
                         }
                         if (result != null)
                             break;
@@ -121,8 +121,6 @@ public class TournamentMenu {
 
                 }
                 tournament.updatePlayersStats();
-
-
                 break;
             case SHOW_STANDINGS:
                 ArrayList<DtoPlayer> playersToShow = tournament.showStandings();
@@ -130,8 +128,6 @@ public class TournamentMenu {
                 {
                     System.out.println("Locul " + (j+1) + ". " + playersToShow.get(j));
                 }
-
-
                 break;
         }
     }
