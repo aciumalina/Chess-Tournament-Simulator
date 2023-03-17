@@ -2,6 +2,7 @@ package InteractiveInput;
 
 import DomainModels.DtoPlayer;
 import DomainModels.Game;
+import DomainModels.Player;
 import DomainModels.Tournaments.KickOut;
 import DomainModels.Tournaments.RoundRobin;
 import DomainModels.Tournaments.Tournament;
@@ -78,17 +79,12 @@ public class TournamentMenu {
                 }
                 int i;
                 //sleep 2 secunde pana sa ceara rezultatele
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
                 for (i=0;i<games.size();i++)
                 {
                     Result result = null;
-                    Game currentGame = games.get(i);
+                    shouPlayingPlayers(games.get(i));
                     while (true){
-                        currentGame.showPlayingPlayers();
+
                         System.out.println("\n1 -- pentru victorie alb");
                         System.out.println("2 -- pentru remiza");
                         System.out.println("3 -- pentru victorie negru");
@@ -136,6 +132,11 @@ public class TournamentMenu {
 
 
         }
+    }
+    private void shouPlayingPlayers(Game currentGame){
+        Player white = repo.getPlayerFromRepo(currentGame.getIdWhite());
+        Player black = repo.getPlayerFromRepo(currentGame.getIdBlack());
+        System.out.println(white.getFirstName() + " " + white.getLastName() +"(alb) vs " + black.getFirstName() + " " + black.getLastName() +"(negru)");
     }
     private TournamentRequest getTournamentDetails() {
         Scanner scanner = new Scanner(System.in);
