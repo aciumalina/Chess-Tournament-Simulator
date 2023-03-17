@@ -56,6 +56,7 @@ public class RoundRobinService {
                 blackPlayer.setBuchholtz(blackPlayer.getBuchholtz() + whitePlayer.getNumberOfPoints());
                 blackPlayer.setCurrentRating(blackPlayer.getCurrentRating()+minimumChange+abs(ratingDifferenceUnits));
                 whitePlayer.setCurrentRating(whitePlayer.getCurrentRating()+minimumChange-abs(ratingDifferenceUnits));
+                break;
             case DRAW:
                 whitePlayer.setNumberOfPoints(whitePlayer.getNumberOfPoints()+0.5);
                 blackPlayer.setNumberOfPoints(blackPlayer.getNumberOfPoints()+0.5);
