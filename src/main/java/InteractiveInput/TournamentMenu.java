@@ -12,10 +12,12 @@ import Enums.TournamentOption;
 import Repos.PlayerRepo;
 import Service.RoundRobinService;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TournamentMenu {
@@ -33,11 +35,15 @@ public class TournamentMenu {
             if (optiune == 1)
             {
                 System.out.println("Ati ales turneu de tip Round Robin");
+                if(!evenNumber(repo.getNumberOfPlayers())){
+                    System.out.println("Nu puteti incepe acest tip de turneu! ( trebuie ca numarul de jucatori sa fie par ");
+                    break;
+                }
                 TournamentRequest tournamentRequest = getTournamentDetails();
                 this.tournament = new RoundRobin(tournamentRequest.getName(),tournamentRequest.getStartDate(),tournamentRequest.getEndDate(),tournamentRequest.getCity());
                 break;
             }
-
+                
 
             if (optiune == 2) {
                 System.out.println("Ati ales turneu de tip Kick Out");
@@ -71,24 +77,42 @@ public class TournamentMenu {
                     break;
                 }
                 int i;
+                //sleep 2 secunde pana sa ceara rezultatele
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 for (i=0;i<games.size();i++)
                 {
                     Result result = null;
                     Game currentGame = games.get(i);
-                    System.out.println(repo.getPlayerFromRepo(currentGame.getIdWhite()).getFirstName() + "(alb) vs " + repo.getPlayerFromRepo(currentGame.getIdBlack()).getFirstName() + "(negru)");
-                    System.out.println("\n1 -- pentru victorie alb");
-                    System.out.println("2 -- pentru remiza");
-                    System.out.println("3 -- pentru victorie negru");
-                    int option2 = scanner.nextInt();
-                    switch (option2){
-                        case 1:
-                            result = Result.WHITE;
-                            break;
-                        case 2:
-                            result = Result.DRAW;
-                            break;
-                        case 3:
-                            result = Result.BLACK;
+                    while (true){
+                        currentGame.showPlayingPlayers();
+                        System.out.println("\n1 -- pentru victorie alb");
+                        System.out.println("2 -- pentru remiza");
+                        System.out.println("3 -- pentru victorie negru");
+                        int option2 = scanner.nextInt();
+                        try{
+                            switch (option2){
+                                case 1:
+                                    result = Result.WHITE;
+                                    break;
+                                case 2:
+                                    result = Result.DRAW;
+                                    break;
+                                case 3:
+                                    result = Result.BLACK;
+                                    break;
+                                default:
+                                    //System.out.println("Rezultat invalid!");
+                                    throw new InputMismatchException();
+                        }
+                    }
+                        catch (InputMismatchException e){
+                            System.out.println("Rezultat invalid");
+                        }
+                        if (result != null)
                             break;
                     }
                     tournament.inputResult(i, result);
@@ -115,21 +139,34 @@ public class TournamentMenu {
     }
     private TournamentRequest getTournamentDetails() {
         Scanner scanner = new Scanner(System.in);
+        while(true){
+            try{
+                System.out.println("Introdu numele turneului: ");
+                String name = scanner.nextLine();
+                System.out.println("Introdu data finalizarii (dd/mm/yyyy): ");
+                String dataString = scanner.nextLine();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+                LocalDate data = LocalDate.parse(dataString, formatter);
+                System.out.println("Introdu orasul care gazduieste turneul: ");
+                String city = scanner.nextLine();
+                return new TournamentRequest(name, LocalDate.now(), data, city);
+            }
+            catch (DateTimeException e){
+                System.out.println("Datele introduse sunt invalide!");
 
-        System.out.println("Introdu numele turneului: ");
-        String name = scanner.nextLine();
-        System.out.println("Introdu data finalizarii: ");
-        String dataString = scanner.nextLine();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
-        LocalDate data = LocalDate.parse(dataString, formatter);
-        System.out.println("Introdu orasul care gazduieste turneul: ");
-        String city = scanner.nextLine();
-        return new TournamentRequest(name, LocalDate.now(), data, city);
+            }
+
+        }
+
     }
 
     private boolean powerOfTwoBitwise(int n)
     {
         return (n & n-1)==0;
+    }
+
+    private boolean evenNumber(int n){
+        return (n%2) == 0;
     }
 
 
