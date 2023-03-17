@@ -22,14 +22,6 @@ public class TournamentMenu {
     Tournament tournament;
     PlayerRepo repo = PlayerRepo.getInstance();
 
-    public void showOptions(){
-        System.out.println("0. Incheie simularea turneului");
-        System.out.println("1. Incepeti runda");
-        System.out.println("2. Arata clasamentul actual");
-    }
-
-
-
 
     public TournamentMenu(){
         Scanner scanner = new Scanner(System.in);
@@ -45,7 +37,7 @@ public class TournamentMenu {
                 this.tournament = new RoundRobin(tournamentRequest.getName(),tournamentRequest.getStartDate(),tournamentRequest.getEndDate(),tournamentRequest.getCity());
                 break;
             }
-                
+
 
             if (optiune == 2) {
                 System.out.println("Ati ales turneu de tip Kick Out");
@@ -61,7 +53,13 @@ public class TournamentMenu {
             }
         }
     }
-    public void chooseOption(TournamentOption option){
+
+    public void showOptions(){
+        System.out.println("0. Incheie simularea turneului");
+        System.out.println("1. Incepeti runda");
+        System.out.println("2. Arata clasamentul actual");
+    }
+     public void chooseOption(TournamentOption option){
         Scanner scanner = new Scanner(System.in);
         switch (option){
             case PAIR_PLAYERS:
@@ -77,7 +75,7 @@ public class TournamentMenu {
                 {
                     Result result = null;
                     Game currentGame = games.get(i);
-                    currentGame.showPlayingPlayers();
+                    System.out.println(repo.getPlayerFromRepo(currentGame.getIdWhite()).getFirstName() + "(alb) vs " + repo.getPlayerFromRepo(currentGame.getIdBlack()).getFirstName() + "(negru)");
                     System.out.println("\n1 -- pentru victorie alb");
                     System.out.println("2 -- pentru remiza");
                     System.out.println("3 -- pentru victorie negru");
