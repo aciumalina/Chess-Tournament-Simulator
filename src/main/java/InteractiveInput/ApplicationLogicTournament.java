@@ -14,7 +14,8 @@ public class ApplicationLogicTournament {
         Scanner scanner = new Scanner(System.in);
 
         int option = 11;
-
+        if (menu.tournament == null)
+            option = 0;
         while (option != 0){
             menu.showOptions();
             try{

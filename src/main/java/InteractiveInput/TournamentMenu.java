@@ -10,6 +10,7 @@ import DomainModels.Tournaments.TournamentRequest;
 import Enums.Option;
 import Enums.Result;
 import Enums.TournamentOption;
+import Errors.CustomError;
 import Repos.PlayerRepo;
 import Service.RoundRobinService;
 
@@ -28,36 +29,43 @@ public class TournamentMenu {
 
     public TournamentMenu(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Introdu tipul turneului (Round Robin/Kick Out Format)");
-        System.out.println("Round Robin - optiunea 1");
-        System.out.println("Kick Out - optiunea 2");
-        int optiune = scanner.nextInt();
         while (true) {
-            if (optiune == 1)
-            {
-                System.out.println("Ati ales turneu de tip Round Robin");
-                if(!evenNumber(repo.getNumberOfPlayers())){
-                    System.out.println("Nu puteti incepe acest tip de turneu! ( trebuie ca numarul de jucatori sa fie par ");
+            try{
+                System.out.println("Introdu tipul turneului (Round Robin/Kick Out Format)");
+                System.out.println("Round Robin - optiunea 1");
+                System.out.println("Kick Out - optiunea 2");
+                int optiune = scanner.nextInt();
+                if (optiune == 1)
+                {
+                    System.out.println("Ati ales turneu de tip Round Robin");
+                    if(!evenNumber(repo.getNumberOfPlayers())){
+                        System.out.println("Nu puteti incepe acest tip de turneu! ( trebuie ca numarul de jucatori sa fie par) ");
+                        break;
+                    }
+                    TournamentRequest tournamentRequest = getTournamentDetails();
+                    this.tournament = new RoundRobin(tournamentRequest.getName(),tournamentRequest.getStartDate(),tournamentRequest.getEndDate(),tournamentRequest.getCity());
                     break;
                 }
-                TournamentRequest tournamentRequest = getTournamentDetails();
-                this.tournament = new RoundRobin(tournamentRequest.getName(),tournamentRequest.getStartDate(),tournamentRequest.getEndDate(),tournamentRequest.getCity());
-                break;
-            }
-                
 
-            if (optiune == 2) {
-                System.out.println("Ati ales turneu de tip Kick Out");
-                if (!powerOfTwoBitwise(repo.getNumberOfPlayers())){
-                    System.out.println("Nu puteti incepe acest tip de turneu! ( trebuie ca numarul de jucatori sa fie putere a lui 2 ");
+                if (optiune == 2) {
+                    System.out.println("Ati ales turneu de tip Kick Out");
+                    if (!powerOfTwoBitwise(repo.getNumberOfPlayers())){
+                        System.out.println("Nu puteti incepe acest tip de turneu! ( trebuie ca numarul de jucatori sa fie putere a lui 2 ");
+                        break;
+                    }
+                    TournamentRequest tournamentRequest2 = getTournamentDetails();
+                    this.tournament = new KickOut(tournamentRequest2.getName(),tournamentRequest2.getStartDate(),tournamentRequest2.getEndDate(),tournamentRequest2.getCity());
                     break;
+                } else {
+                    System.out.println("Optiune invalida!");
                 }
-                TournamentRequest tournamentRequest2 = getTournamentDetails();
-                this.tournament = new KickOut(tournamentRequest2.getName(),tournamentRequest2.getStartDate(),tournamentRequest2.getEndDate(),tournamentRequest2.getCity());
-                break;
-            } else {
-                System.out.println("Optiune invalida!");
+
             }
+            catch (InputMismatchException e){
+                System.out.println("Optiunea trebuie sa fie o cifra!");
+                scanner.next();
+            }
+
         }
     }
 
@@ -82,14 +90,14 @@ public class TournamentMenu {
                 for (i=0;i<games.size();i++)
                 {
                     Result result = null;
-                    shouPlayingPlayers(games.get(i));
                     while (true){
-
+                        shouPlayingPlayers(games.get(i));
                         System.out.println("\n1 -- pentru victorie alb");
                         System.out.println("2 -- pentru remiza");
                         System.out.println("3 -- pentru victorie negru");
-                        int option2 = scanner.nextInt();
+
                         try{
+                            int option2 = scanner.nextInt();
                             switch (option2){
                                 case 1:
                                     result = Result.WHITE;
@@ -102,11 +110,16 @@ public class TournamentMenu {
                                     break;
                                 default:
                                     //System.out.println("Rezultat invalid!");
-                                    throw new InputMismatchException();
+                                    throw new CustomError("Rezultat invalid");
                         }
                     }
+                        catch (CustomError err){
+                            System.out.println(err.getMessage());
+                        }
+
                         catch (InputMismatchException e){
-                            System.out.println("Rezultat invalid");
+                            System.out.println("Rezultatul introdus trebuie sa fie o cifra!");
+                            scanner.next();
                         }
                         if (result != null)
                             break;
@@ -115,8 +128,6 @@ public class TournamentMenu {
 
                 }
                 tournament.updatePlayersStats();
-
-
                 break;
             case SHOW_STANDINGS:
                 ArrayList<DtoPlayer> playersToShow = tournament.showStandings();
@@ -124,8 +135,6 @@ public class TournamentMenu {
                 {
                     System.out.println("Locul " + (j+1) + ". " + playersToShow.get(j));
                 }
-
-
                 break;
 
 
