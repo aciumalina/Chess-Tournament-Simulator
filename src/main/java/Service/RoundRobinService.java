@@ -2,6 +2,7 @@ package Service;
 
 import DomainModels.Game;
 import DomainModels.Player;
+import Enums.BetterPlayer;
 import Enums.Result;
 import Repos.PlayerRepo;
 
@@ -32,43 +33,66 @@ public class RoundRobinService {
     public void updatePlayersStats(Game game){
         Player whitePlayer = getPlayers().get(game.getIdWhite());
         Player blackPlayer = getPlayers().get(game.getIdBlack());
-        int ratingWhite = whitePlayer.getCurrentRating();
-        int ratingBlack = blackPlayer.getCurrentRating();
-        int ratingDifference = (ratingWhite - ratingBlack);
-        if (abs(ratingDifference) > 200)
-                ratingDifference = 200;
+        int ratingDifference = getRatingDifference(whitePlayer,blackPlayer);
+        int ratingDifferenceUnits = getRatingDifferenceUnits(ratingDifference);
+        BetterPlayer betterPlayer = getBetterPlayer(ratingDifference);
         int minimumChange = 8;
-        int ratingDifferenceUnits = (int)(ratingDifference/30);
+        int ratingPoints;
         switch (game.getResult()){
             case WHITE:
 
                 whitePlayer.setNumberOfPoints(whitePlayer.getNumberOfPoints()+1);
                 whitePlayer.setBuchholtz(whitePlayer.getBuchholtz() + blackPlayer.getNumberOfPoints());
-                //if white is better player
-                // ratingPoints = minimumChange - Units;
-                //else
-                //reting point = + Units
-                whitePlayer.setCurrentRating(whitePlayer.getCurrentRating()+minimumChange+abs(ratingDifferenceUnits));
-                blackPlayer.setCurrentRating(blackPlayer.getCurrentRating()-minimumChange+abs(ratingDifferenceUnits));
+                if (betterPlayer == BetterPlayer.WHITE)
+                    ratingPoints = minimumChange - ratingDifferenceUnits;
+                else
+                    ratingPoints = minimumChange + ratingDifferenceUnits;
+                whitePlayer.setCurrentRating(whitePlayer.getCurrentRating()+ratingPoints);
+                blackPlayer.setCurrentRating(blackPlayer.getCurrentRating()-ratingPoints);
                 break;
             case BLACK:
                 blackPlayer.setNumberOfPoints(blackPlayer.getNumberOfPoints()+1);
                 blackPlayer.setBuchholtz(blackPlayer.getBuchholtz() + whitePlayer.getNumberOfPoints());
-                blackPlayer.setCurrentRating(blackPlayer.getCurrentRating()+minimumChange+abs(ratingDifferenceUnits));
-                whitePlayer.setCurrentRating(whitePlayer.getCurrentRating()+minimumChange-abs(ratingDifferenceUnits));
+                if (betterPlayer == BetterPlayer.WHITE)
+                    ratingPoints = minimumChange + ratingDifferenceUnits;
+                else
+                    ratingPoints = minimumChange - ratingDifferenceUnits;
+                whitePlayer.setCurrentRating(whitePlayer.getCurrentRating()-ratingPoints);
+                blackPlayer.setCurrentRating(blackPlayer.getCurrentRating()+ratingPoints);
                 break;
             case DRAW:
                 whitePlayer.setNumberOfPoints(whitePlayer.getNumberOfPoints()+0.5);
                 blackPlayer.setNumberOfPoints(blackPlayer.getNumberOfPoints()+0.5);
-                blackPlayer.setBuchholtz(blackPlayer.getBuchholtz() + whitePlayer.getNumberOfPoints());
-                whitePlayer.setBuchholtz(whitePlayer.getBuchholtz() + blackPlayer.getNumberOfPoints());
-                if (ratingDifference > 0){
-                    //albul este jucatorul mai puternic
-                    whitePlayer.setCurrentRating(whitePlayer.getCurrentRating()-(minimumChange+abs(ratingDifferenceUnits))/2);
+                if (betterPlayer == BetterPlayer.WHITE) {
+                    whitePlayer.setCurrentRating(whitePlayer.getCurrentRating() - ratingDifferenceUnits);
+                    blackPlayer.setCurrentRating(blackPlayer.getCurrentRating() + ratingDifferenceUnits);
+                }
+                else
+                {
+                    whitePlayer.setCurrentRating(whitePlayer.getCurrentRating() + ratingDifferenceUnits);
+                    blackPlayer.setCurrentRating(blackPlayer.getCurrentRating() - ratingDifferenceUnits);
                 }
                 break;
+
         }
+
     }
+    private BetterPlayer getBetterPlayer(int ratingDifference ){
+        if (ratingDifference > 0)
+            return BetterPlayer.WHITE;
+        return BetterPlayer.BLACK;
+
+    }
+    private int getRatingDifferenceUnits (int ratingDifference){
+        if (abs(ratingDifference) > 200)
+            ratingDifference = 200;
+        return (int)(ratingDifference/30);
+
+    }
+    private int getRatingDifference(Player white, Player black){
+        return white.getCurrentRating() - black.getCurrentRating();
+    }
+
 
 
 }
