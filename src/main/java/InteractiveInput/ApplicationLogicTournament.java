@@ -1,6 +1,6 @@
 package InteractiveInput;
 
-import DomainModels.Tournaments.Tournament;
+
 import Enums.TournamentOption;
 
 import java.util.InputMismatchException;
@@ -12,11 +12,12 @@ public class ApplicationLogicTournament {
     public static void runTournament(){
         TournamentMenu menu = new TournamentMenu();
         Scanner scanner = new Scanner(System.in);
+        boolean stillPlaying = true;
 
         int option = 11;
         if (menu.tournament == null)
             option = 0;
-        while (option != 0){
+        while (option != 0 && stillPlaying){
             menu.showOptions();
             try{
                 option = scanner.nextInt();
@@ -30,7 +31,7 @@ public class ApplicationLogicTournament {
                 case 0:
                     break;
                 case 1:
-                    menu.chooseOption(TournamentOption.PAIR_PLAYERS);
+                    stillPlaying = menu.chooseOption(TournamentOption.PAIR_PLAYERS);
                     break;
                 case 2:
                     menu.chooseOption(TournamentOption.SHOW_STANDINGS);
@@ -40,6 +41,13 @@ public class ApplicationLogicTournament {
                     break;
             }
 
+
+
+
         }
+        assert menu.tournament != null;
+        menu.tournament.reinitializePlayersAfterTournament();
+
+
     }
 }

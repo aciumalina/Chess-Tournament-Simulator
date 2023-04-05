@@ -42,6 +42,12 @@ public class KickOut extends Tournament{
 
     }
 
+    @Override
+    public void reinitializePlayersAfterTournament() {
+        kickOutService.reinitTournament();
+    }
+
+
     private static void incrementRoundNumber(){
         roundNumber +=1;
     }

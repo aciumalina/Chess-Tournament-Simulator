@@ -13,6 +13,7 @@ import Enums.TournamentOption;
 import Errors.CustomError;
 import Repos.PlayerRepo;
 import Service.RoundRobinService;
+import Service.TournamentService;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ import java.util.Scanner;
 
 public class TournamentMenu {
     Tournament tournament;
-    PlayerRepo repo = PlayerRepo.getInstance();
+    TournamentService service = new TournamentService();
 
 
     public TournamentMenu(){
@@ -38,7 +39,7 @@ public class TournamentMenu {
                 if (optiune == 1)
                 {
                     System.out.println("Ati ales turneu de tip Round Robin");
-                    if(!evenNumber(repo.getNumberOfPlayers())){
+                    if(!service.canStartRoundRobinTournament()){
                         System.out.println("Nu puteti incepe acest tip de turneu! ( trebuie ca numarul de jucatori sa fie par) ");
                         break;
                     }
@@ -49,7 +50,7 @@ public class TournamentMenu {
 
                 if (optiune == 2) {
                     System.out.println("Ati ales turneu de tip Kick Out");
-                    if (!powerOfTwoBitwise(repo.getNumberOfPlayers())){
+                    if (!service.canStartKickOutTournament()){
                         System.out.println("Nu puteti incepe acest tip de turneu! ( trebuie ca numarul de jucatori sa fie putere a lui 2 ");
                         break;
                     }
@@ -74,7 +75,7 @@ public class TournamentMenu {
         System.out.println("1. Incepeti runda");
         System.out.println("2. Arata clasamentul actual");
     }
-     public void chooseOption(TournamentOption option){
+     public boolean chooseOption(TournamentOption option){
         Scanner scanner = new Scanner(System.in);
         switch (option){
             case PAIR_PLAYERS:
@@ -83,15 +84,15 @@ public class TournamentMenu {
                 {
                     System.out.println("Turneul s-a incheiat! Iata rezultatul final: \n \n");
                     chooseOption(TournamentOption.SHOW_STANDINGS);
-                    break;
+                    //Turneul s-a incheiat
+                    return false;
                 }
                 int i;
-                //sleep 2 secunde pana sa ceara rezultatele
                 for (i=0;i<games.size();i++)
                 {
                     Result result = null;
                     while (true){
-                        shouPlayingPlayers(games.get(i));
+                        showPlayingPlayers(games.get(i));
                         System.out.println("\n1 -- pentru victorie alb");
                         System.out.println("2 -- pentru remiza");
                         System.out.println("3 -- pentru victorie negru");
@@ -136,15 +137,17 @@ public class TournamentMenu {
                     System.out.println("Locul " + (j+1) + ". " + playersToShow.get(j));
                 }
                 break;
-
+            default:
+                System.out.println("Valoarea introdusa este gresita");
 
 
 
         }
+        return true;
     }
-    private void shouPlayingPlayers(Game currentGame){
-        Player white = repo.getPlayerFromRepo(currentGame.getIdWhite());
-        Player black = repo.getPlayerFromRepo(currentGame.getIdBlack());
+    private void showPlayingPlayers(Game currentGame){
+        Player white = service.getPlayerFromRepo(currentGame.getIdWhite());
+        Player black = service.getPlayerFromRepo(currentGame.getIdBlack());
         System.out.println(white.getFirstName() + " " + white.getLastName() +"(alb) vs " + black.getFirstName() + " " + black.getLastName() +"(negru)");
     }
     private TournamentRequest getTournamentDetails() {
@@ -170,14 +173,9 @@ public class TournamentMenu {
 
     }
 
-    private boolean powerOfTwoBitwise(int n)
-    {
-        return (n & n-1)==0;
-    }
 
-    private boolean evenNumber(int n){
-        return (n%2) == 0;
-    }
+
+
 
 
 }

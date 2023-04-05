@@ -7,9 +7,10 @@ import Repos.PlayerRepo;
 
 import java.util.*;
 
-public class KickOutService {
+public class KickOutService implements CommonMethodsForTournamentServices{
     private static final PlayerRepo repo = PlayerRepo.getInstance();
-    RandomService randomService = new RandomService();
+
+    Map<Integer,Player> playersWhoLost = new HashMap<>();
     public ArrayList<Game> getGames(){
         ArrayList<Game> games = new ArrayList<>();
         List<Integer> randomArray = new ArrayList<>(repo.getPlayersFromRepo().keySet());
@@ -36,6 +37,8 @@ public class KickOutService {
         for (i=0;i<games.size();i++)
         {
             currentGame = games.get(i);
+            updatePlayerStats(currentGame);
+
             if (deleteLosingPlayerFromRepo(currentGame) == Winner.NO)
             {
                 currentGame.setResult(playArmagedon(currentGame));
@@ -46,6 +49,11 @@ public class KickOutService {
 
 
     }
+    private void updatePlayerStats(Game game){
+        updatePlayersStatsImplementation(repo.getPlayerFromRepo(game.getIdWhite()),repo.getPlayerFromRepo(game.getIdBlack()),game.getResult());
+    }
+
+
     private Result playArmagedon(Game game){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Care a fost rezultatul armagedonului dintre " + game.getIdWhite()+ " si " + game.getIdBlack()+ "?");
@@ -68,13 +76,17 @@ public class KickOutService {
     private Winner deleteLosingPlayerFromRepo(Game game ){
         if (game.getResult() == Result.BLACK)
         {
-            repo.deletePlayerFromRepo(game.getIdWhite());
+            int id = game.getIdWhite();
+            playersWhoLost.put(id, repo.getPlayerFromRepo(id));
+            repo.deletePlayerFromRepo(id);
             return Winner.YES;
         }
 
         if (game.getResult() == Result.WHITE)
         {
-            repo.deletePlayerFromRepo(game.getIdBlack());
+            int id = game.getIdBlack();
+            playersWhoLost.put(id, repo.getPlayerFromRepo(id));
+            repo.deletePlayerFromRepo(id);
             return Winner.YES;
         }
             return Winner.NO;
@@ -90,8 +102,13 @@ public class KickOutService {
         return  dtoPlayers;
 
     }
+    public void reinitTournament(){
+        repo.reinitializeRepoAfterTournament((HashMap<Integer, Player>) playersWhoLost);
+    }
+
     private DtoPlayer convertPlayerToDtoPlayer (Player player){
         return new DtoPlayer(player.getId(), player.getFirstName(), player.getLastName() ,player.getCurrentRating());
     }
+
 
 }

@@ -95,6 +95,11 @@ public class RoundRobin extends Tournament{
         }
     }
 
+    @Override
+    public void reinitializePlayersAfterTournament() {
+        roundRobinService.reinitAfterTorunament();
+    }
+
     private static void incrementRoundNumber(){
         roundNumber +=1;
     }
