@@ -88,6 +88,12 @@ public class TournamentMenu {
                     return false;
                 }
                 int i;
+                if (tournament instanceof RoundRobin)
+                    if (!((RoundRobin)tournament).getStandByPlayers().isEmpty()){
+                        System.out.println("Jucatorii neimperecheati din aceasta runda:");
+                        for(Player player: ((RoundRobin)tournament).getStandByPlayers())
+                            System.out.println(player.getFirstName() + " " + player.getLastName());
+                    }
                 for (i=0;i<games.size();i++)
                 {
                     Result result = null;
@@ -139,9 +145,6 @@ public class TournamentMenu {
                 break;
             default:
                 System.out.println("Valoarea introdusa este gresita");
-
-
-
         }
         return true;
     }
@@ -149,6 +152,7 @@ public class TournamentMenu {
         Player white = service.getPlayerFromRepo(currentGame.getIdWhite());
         Player black = service.getPlayerFromRepo(currentGame.getIdBlack());
         System.out.println(white.getFirstName() + " " + white.getLastName() +"(alb) vs " + black.getFirstName() + " " + black.getLastName() +"(negru)");
+
     }
     private TournamentRequest getTournamentDetails() {
         Scanner scanner = new Scanner(System.in);

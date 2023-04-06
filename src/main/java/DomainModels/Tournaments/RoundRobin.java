@@ -7,10 +7,7 @@ import DomainModels.Round;
 import Service.RoundRobinService;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.*;
 
 public class RoundRobin extends Tournament{
 
@@ -20,12 +17,16 @@ public class RoundRobin extends Tournament{
     private static int roundNumber = 0;
 
     int[][] pairingsTable;
+    ArrayList<Integer> ids;
+    ArrayList<Player> standByPlayers;
 
     public RoundRobin(String name, LocalDate startDate, LocalDate endDate, String city) {
         super(name, startDate, endDate, city);
 
         noOfPlayers = roundRobinService.getNumberOfPlayersFromRepo();
         pairingsTable = new int[noOfPlayers+1][noOfPlayers+1]; // crearea matricei
+        standByPlayers = new ArrayList<>();
+        ids = new ArrayList<>(roundRobinService.getPlayers().keySet());
 
         // initializarea matricei cu 0-uri si setarea valorii 1 pe diagonala principala
         for (int i = 0; i < noOfPlayers+1; i++) {
@@ -37,26 +38,29 @@ public class RoundRobin extends Tournament{
                 }
             }
         }
+
     }
 
     @Override
     public Round pairPlayers() {
         incrementRoundNumber();
         ArrayList<Game> games = new ArrayList<Game>();
-        int[] paired = new int[noOfPlayers+1];
-        for (int i = 0; i < noOfPlayers+1; i++)
+        if (standByPlayers != null)
+            standByPlayers.clear();
+        int[] paired = new int[noOfPlayers];
+        for (int i = 0; i < noOfPlayers; i++)
             paired[i] = 0;
 
-        for(int i = 1; i < noOfPlayers+1; i ++)
+        for(int i = 0; i < noOfPlayers; i ++)
         {
             if (paired[i] == 1)
                 continue;
-            for(int j = 1; j < noOfPlayers+1; j++){
+            for(int j = 0; j < noOfPlayers; j++){
                 if(paired[j] == 1)
                     continue;
                 if (pairingsTable[i][j] == 0)
                 {
-                    games.add(roundRobinService.createGame(i,j));
+                    games.add(roundRobinService.createGame(ids.get(i),ids.get(j)));
                     pairingsTable[i][j] = 1;
                     pairingsTable[j][i] = 1;
                     paired[i] = paired[j] = 1;
@@ -65,9 +69,18 @@ public class RoundRobin extends Tournament{
             }
         }
 
+        for(int i = 0; i < paired.length; i++)
+            if (paired[i] == 0)
+                this.standByPlayers.add(roundRobinService.getPlayer(ids.get(i)));
+
+
         Round currentRound = new Round(roundNumber, games);
         this.rounds.put(roundNumber, currentRound);
         return currentRound;
+    }
+
+    public ArrayList<Player> getStandByPlayers(){
+        return standByPlayers;
     }
 
     @Override

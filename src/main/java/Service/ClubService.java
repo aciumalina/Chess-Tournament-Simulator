@@ -20,6 +20,20 @@ public class ClubService {
         return repo.addClubToRepo(club);
     }
 
+    public Club getClub(int id){
+        return repo.getClubFromRepo(id);
+    }
+
+    public int deleteClub(int id){
+        return repo.deleteClubFromRepo(id);
+    }
+
+    public Club editClub(ClubRequest clubReq, int id){
+        Club club = new Club(clubReq.getName(), clubReq.getCity(), clubReq.getFoundingYear());
+        club.setId(id);
+        return repo.editClubFromRepo(club, id);
+    }
+
     public Map<Integer, Club> getClubs(){
         return repo.getClubsFromRepo();
     }

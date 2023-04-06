@@ -2,6 +2,7 @@ package DomainModels.Tournaments;
 
 import DomainModels.DtoPlayer;
 import DomainModels.Game;
+import DomainModels.Player;
 import DomainModels.Round;
 import Enums.Result;
 
@@ -33,6 +34,7 @@ public abstract class Tournament {
     public abstract Round pairPlayers();
     public abstract ArrayList<DtoPlayer> showStandings();
     public abstract void updatePlayersStats();
+    //public abstract ArrayList<Player> getStandByPlayers();
 
     public abstract void reinitializePlayersAfterTournament();
 

@@ -15,7 +15,8 @@ public class ApplicationLogic {
             menu.showPrimaryOptions();
             try {
                 option = scanner.nextInt();
-            } catch (InputMismatchException ignored)
+            }
+            catch (InputMismatchException ignored)
             {
                 scanner.next();
             }
@@ -53,10 +54,22 @@ public class ApplicationLogic {
                         System.out.println("Adaugare club esuata (aveti grija ca datele introduse sa fie corecte) !");
                     }
                     break;
-
                 case 6:
+                        menu.chooseOption(Option.ShowClubs);
+                        break;
+                case 7:
+                    menu.chooseOption(Option.DeleteClub);
+                    break;
+                case 8:
+                    try{
+                        menu.chooseOption(Option.EditClub);
+                    }
+                    catch (InputMismatchException e) {
+                        System.out.println("Editare club esuata (aveti grija ca datele introduse sa fie corecte) !");
+                    }
+                    break;
+                case 9:
                     ApplicationLogicTournament.runTournament();
-
                     break;
                 default:
                     System.out.println("Input invalid");

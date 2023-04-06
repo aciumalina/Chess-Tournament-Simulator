@@ -28,6 +28,21 @@ public class ClubRepo {
     public Map<Integer, Club> getClubsFromRepo(){
         return repo;
     }
+
+    public Club getClubFromRepo(int id){
+        return repo.get(id);
+    }
+
+    public int deleteClubFromRepo(int id){
+        if (repo.remove(id) != null)
+            return  1;
+        else
+            return 0;
+    }
+
+    public Club editClubFromRepo(Club club, int id) {
+        return repo.replace(id, club);
+    }
     private static int incrementId(){
         currentId += 1;
         return currentId;
