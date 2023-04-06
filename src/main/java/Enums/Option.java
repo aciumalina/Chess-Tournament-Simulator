@@ -6,5 +6,8 @@ public enum Option {
     ShowPlayers,
     DeletePlayer,
     EditPlayer,
-    NewClub
+    NewClub,
+    ShowClubs,
+    DeleteClub,
+    EditClub
 }

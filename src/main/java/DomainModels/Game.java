@@ -16,8 +16,6 @@ public class Game {
         this.idBlack = idBlack;
     }
 
-
-
     @Override
     public String toString() {
         return "Game{" +

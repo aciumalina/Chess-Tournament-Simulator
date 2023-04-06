@@ -8,9 +8,6 @@ import Repos.PlayerRepo;
 import java.util.HashMap;
 import java.util.Random;
 
-
-
-
 public class RoundRobinService implements CommonMethodsForTournamentServices {
     PlayerRepo players = PlayerRepo.getInstance();
     public HashMap<Integer, Player> getPlayers(){
@@ -23,6 +20,10 @@ public class RoundRobinService implements CommonMethodsForTournamentServices {
             return new Game(i,j);
         else
             return new Game(j,i);
+    }
+
+    public Player getPlayer(int id){
+        return players.getPlayerFromRepo(id);
     }
     public int getNumberOfPlayersFromRepo(){
         return players.getNumberOfPlayers();

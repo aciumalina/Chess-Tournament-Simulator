@@ -45,8 +45,15 @@ public class ApplicationLogicTournament {
 
 
         }
-        assert menu.tournament != null;
-        menu.tournament.reinitializePlayersAfterTournament();
+
+        try{
+            assert menu.tournament != null;
+            menu.tournament.reinitializePlayersAfterTournament();
+        }
+        catch (NullPointerException e)
+        {
+            System.out.println("\nSe revine la meniul principal... \n");
+        }
 
 
     }

@@ -29,9 +29,12 @@ public class Menu {
         System.out.println("3. Sterge un jucator");
         System.out.println("4. Editeaza datele unui jucator");
         System.out.println("5. Introdu un club nou");
-        System.out.println("6. Start turneu");
+        System.out.println("6. Afiseaza cluburile existente");
+        System.out.println("7. Sterge un club");
+        System.out.println("8. Editeaza un club");
+        System.out.println("9. Start turneu");
     }
-    public  void chooseOption(Option option){
+    public void chooseOption(Option option){
         switch (option){
             case NewPlayer:
                 System.out.println(playerService.createPlayer(getPlayerDetails()));
@@ -65,6 +68,31 @@ public class Menu {
 
             case NewClub:
                 System.out.println(clubService.createClub(getClubDetails()));
+                break;
+
+            case ShowClubs:
+                clubService.getClubs().forEach((idClub, club) ->
+                        System.out.println(club));
+                break;
+
+            case DeleteClub:
+                if (clubService.deleteClub(idToDelete()) == 1){
+                    System.out.println("Clubul a fost sters cu succes");
+
+                }
+                else
+                    System.out.println("Clubul cu id-ul introdus nu exista");
+                break;
+            case EditClub:
+                int idClub = idToEdit();
+                if (clubService.getClub(idClub)==null){
+                    System.out.println("Clubul cu id-ul introdus nu exista");
+                }
+                else{
+                    System.out.println((clubService.getClub(idClub)));
+                    clubService.editClub(getClubDetails(),idClub);
+                    System.out.println("Clubul a fost editat cu succes");
+                }
                 break;
         }
     }
@@ -130,13 +158,13 @@ public class Menu {
         return newClub;
     }
     private int idToDelete (){
-        System.out.println("Introdu id-ul jucatorului pe care vrei sa il stergi:");
+        System.out.println("Introdu id-ul pe care vrei sa il stergi:");
         Scanner obj = new Scanner(System.in);
         return  obj.nextInt();
     }
 
     private int idToEdit(){
-        System.out.println("Introdu id-ul jucatorului pe care vrei sa il editezi:");
+        System.out.println("Introdu id-ul pe care vrei sa il editezi:");
         Scanner obj = new Scanner(System.in);
         return obj.nextInt();
     }
