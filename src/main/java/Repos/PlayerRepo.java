@@ -2,20 +2,18 @@ package Repos;
 
 import DomainModels.Club;
 import DomainModels.Player;
-import DomainModels.PlayerRequest;
 import Enums.Gender;
 
-import java.sql.SQLOutput;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
+
 
 public class PlayerRepo {
 
     private static PlayerRepo singleInstance = null;
     public static int currentId = 0;
     Map<Integer, Player> repo = new HashMap<Integer, Player>();
-    public Player addPlayerToRepo;
 
     private PlayerRepo(){
         addPlayerToRepo(new Player("Popescu", "Ion", 18, 1756, Gender.Male, "", new Club("Clubul Central de Sah", "Bucuresti", 2009)));
@@ -32,6 +30,18 @@ public class PlayerRepo {
             singleInstance = new PlayerRepo();
 
         return singleInstance;
+    }
+    public void reinitializeRepoAfterTournament(HashMap<Integer,Player> newHashMap){
+        if (newHashMap != null){
+            newHashMap.forEach(repo::putIfAbsent);
+        }
+        resetBucholtzAndPoints();
+    }
+    private void resetBucholtzAndPoints(){
+        for (Map.Entry<Integer, Player> set : repo.entrySet()){
+            set.getValue().setBuchholtz(0);
+            set.getValue().setNumberOfPoints(0);
+        }
     }
 
     public Player addPlayerToRepo(Player player) {

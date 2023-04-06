@@ -34,5 +34,7 @@ public abstract class Tournament {
     public abstract ArrayList<DtoPlayer> showStandings();
     public abstract void updatePlayersStats();
 
+    public abstract void reinitializePlayersAfterTournament();
+
 
 }

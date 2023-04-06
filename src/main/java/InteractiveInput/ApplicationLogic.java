@@ -57,12 +57,6 @@ public class ApplicationLogic {
                 case 6:
                     ApplicationLogicTournament.runTournament();
 
-//                    try{
-//                        menu.chooseOption(Option.StartTournament);
-//                    }
-//                    catch (InputMismatchException e){
-//                        System.out.println("Incepere turneu esuata (aveti grija ca datele introduse sa fie corecte) !");
-//                    }
                     break;
                 default:
                     System.out.println("Input invalid");
